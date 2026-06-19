@@ -1,0 +1,40 @@
+{
+    "timestamp": "2026-06-19T18:41:27.138534",
+    "stress": {
+        "score": 35.63,
+        "level": "Mild Stress"
+    },
+    "contributors": {
+        "typing": 5.55,
+        "context_switching": 10,
+        "mouse_activity": 20,
+        "fatigue": 0.08
+    },
+    "recommendation": {
+        "title": "Keep Working",
+        "reason": "Stress levels are normal."
+    },
+    "metrics": {
+        "keyboard": {
+            "keys_per_min": 22,
+            "backspaces_per_min": 2,
+            "avg_pause": 0.11,
+            "long_pause_count": 0,
+            "typing_variance": 0.1
+        },
+        "mouse": {
+            "mouse_speed": 82.47,
+            "click_rate": 26,
+            "movement_distance": 4948.49
+        },
+        "window": {
+            "active_window": "\u25cf aggregator.py - synapse-cognitive-engine - Visual Studio Code",
+            "window_switches": 2
+        },
+        "session": {
+            "session_minutes": 0.42,
+            "break_count": 0,
+            "time_since_last_break": 0.42
+        }
+    }
+}
