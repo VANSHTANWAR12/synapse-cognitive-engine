@@ -60,6 +60,27 @@ class ReportGenerator:
             severity = "MODERATE"
             alert_triggered = True
             
+        # Predictive Early Warning System Additions
+        predictive_alerts = []
+        pred = metrics.get("prediction", {})
+        if pred:
+            b_risk = pred.get("burnout_risk", 0)
+            p15 = pred.get("predicted_stress_15m", 0)
+            
+            if fatigue >= 60 and pred.get("predicted_stress_30m", 0) > 65:
+                predictive_alerts.append("EARLY_FATIGUE_WARNING: Fatigue projected to escalate.")
+            if p15 > 75:
+                predictive_alerts.append("COGNITIVE_OVERLOAD_WARNING: Imminent stress spike predicted (15m).")
+            if b_risk > 70:
+                predictive_alerts.append("BURNOUT_RISK_ALERT: Sustained high stress pattern detected.")
+            if session_minutes > 90 and b_risk > 60:
+                predictive_alerts.append("PRODUCTIVITY_DECLINE_WARNING: Recommend immediate break.")
+                
+            if predictive_alerts:
+                alert_triggered = True
+                if severity == "LOW":
+                    severity = "MODERATE" # Elevate severity based on future risk
+            
         if alert_triggered and triggers:
             reason_str = ", ".join(triggers)
             if ", " in reason_str:
@@ -72,7 +93,11 @@ class ReportGenerator:
         alert_data = {
             "alert": alert_triggered,
             "severity": severity,
-            "reason": reason
+            "triggers": triggers,
+            "predictive_alerts": predictive_alerts,
+            "action": "Immediate intervention required. Recommend employee takes a break." if severity in ["HIGH", "CRITICAL"] else (
+                "Suggest a short break or task switch." if severity == "MODERATE" else "No action required."
+            )
         }
 
         report = {

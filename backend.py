@@ -19,6 +19,15 @@ from output.report_generator import ReportGenerator
 from services.llm_engine import get_supportive_response
 from services.rppg_engine import rppg_engine
 
+# Import ML Predictive Engine
+from ml.feature_store import FeatureStore
+from ml.predictor import Predictor
+from ml.train import run_training_loop
+
+# Import Storage Engine
+from storage.snapshot_manager import SnapshotManager
+from storage.context_builder import ContextBuilder
+
 REPORT_FILE = os.path.join("reports", "latest_report.json")
 
 # Ensure reports directory exists
@@ -96,6 +105,15 @@ def run_aggregator_loop():
         aggregator = MetricsAggregator()
         stress_engine = StressEngine()
         generator = ReportGenerator()
+        
+        # Initialize ML Predictive Components
+        feature_store = FeatureStore()
+        predictor = Predictor()
+        
+        # Initialize Historical Storage Components
+        snapshot_manager = SnapshotManager()
+        context_builder = ContextBuilder()
+        
     except Exception as e:
         print(f"Error initializing trackers: {e}. Check if dependencies or permissions are correct.", flush=True)
         return
@@ -116,7 +134,19 @@ def run_aggregator_loop():
             metrics["cv"]["recent_events"] = recent_events
             metrics["cv"]["session_summary"] = session_summary
             
-            generator.save_report(metrics, stress)
+            # Save data to SQLite Feature Store for future training
+            feature_store.store(metrics, stress["stress"]["score"])
+            
+            # Run Live LSTM Inference
+            prediction = predictor.predict_live_risk()
+            metrics["prediction"] = prediction
+            
+            report = generator.save_report(metrics, stress)
+            
+            if snapshot_manager.check_and_save_snapshot(report):
+                snapshots = snapshot_manager.get_all_snapshots(limit=20)
+                context_builder.build_context(snapshots, report)
+                
         except Exception as e:
             print(f"Error in aggregator loop: {e}", flush=True)
         time.sleep(2)
@@ -126,6 +156,11 @@ async def lifespan(app: FastAPI):
     # Startup logic: launch daemon thread
     t = threading.Thread(target=run_aggregator_loop, daemon=True)
     t.start()
+    
+    # Launch ML background training daemon
+    ml_train_thread = threading.Thread(target=run_training_loop, daemon=True)
+    ml_train_thread.start()
+    
     rppg_engine.start()
     yield
     # Shutdown logic
@@ -210,3 +245,39 @@ def get_report():
         except Exception as e:
             print(f"Error reading report file: {e}", flush=True)
     return DEFAULT_REPORT
+
+@app.get("/llm-context")
+def get_llm_context():
+    context_file = os.path.join("reports", "llm_context", "latest_context.json")
+    if os.path.exists(context_file):
+        try:
+            with open(context_file, "r") as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return {"error": "Context not generated yet.", "analytics_summary": {}}
+
+@app.get("/snapshots")
+def get_snapshots():
+    try:
+        sm = SnapshotManager()
+        return sm.get_all_snapshots(limit=50)
+    except Exception as e:
+        print(f"Error reading snapshots: {e}", flush=True)
+    return []
+
+@app.get("/events")
+def get_events():
+    events_file = os.path.join("reports", "events", "cv_events.json")
+    if os.path.exists(events_file):
+        try:
+            with open(events_file, "r") as f:
+                data = json.load(f)
+                # handle {"events": [...]} format
+                if isinstance(data, dict) and "events" in data:
+                    return data
+                return {"events": data}
+        except Exception:
+            pass
+    return {"events": []}
+

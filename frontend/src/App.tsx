@@ -12,7 +12,6 @@ import {
   Brain,
   TrendingUp,
   Activity,
-  Eye,
   Camera,
   HeartPulse
 } from "lucide-react";
@@ -72,6 +71,9 @@ interface CVMetrics {
   focused: boolean;
   face_present: boolean;
   distance_risk: number;
+  frustration_score: number;
+  cognitive_overload_score: number;
+  engagement_score: number;
 }
 
 interface Metrics {
@@ -106,7 +108,20 @@ interface Recommendation {
 interface ManagerAlert {
   alert: boolean;
   severity: "LOW" | "MODERATE" | "HIGH" | "CRITICAL";
-  reason: string;
+  reason?: string;
+  triggers?: string[];
+  predictive_alerts?: string[];
+  action?: string;
+}
+
+interface Prediction {
+  predicted_stress_15m: number;
+  predicted_stress_30m: number;
+  burnout_risk: number;
+  risk_level: string;
+  confidence: number;
+  top_factors: string[];
+  model_status: string;
 }
 
 interface ManagerEvent {
@@ -136,6 +151,7 @@ interface StressReport {
   recent_events: ManagerEvent[];
   session_summary: SessionSummary;
   metrics: Metrics;
+  prediction?: Prediction;
 }
 
 interface TrendPoint {
@@ -147,6 +163,8 @@ interface TrendPoint {
   wellnessScore?: number;
   frustrationScore?: number;
   stressScore?: number;
+  pred15m?: number;
+  pred30m?: number;
 }
 
 const BACKEND_URL = "http://127.0.0.1:8000";
@@ -155,6 +173,7 @@ function Dashboard() {
   const [report, setReport] = useState<StressReport | null>(null);
   const [trendData, setTrendData] = useState<TrendPoint[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [historicalAnalytics, setHistoricalAnalytics] = useState<any>(null);
 
   // Poll API for new report every 5 seconds
   const fetchReport = async () => {
@@ -183,7 +202,9 @@ function Dashboard() {
           attentionScore: data.metrics.cv?.attention_score || 0,
           wellnessScore: data.metrics.cv?.wellness_score || 0,
           frustrationScore: data.metrics.cv?.frustration_score || 0,
-          stressScore: data.stress.score
+          stressScore: data.stress.score,
+          pred15m: data.prediction?.predicted_stress_15m,
+          pred30m: data.prediction?.predicted_stress_30m
         }];
         if (next.length > 100) {
           return next.slice(next.length - 100);
@@ -196,10 +217,29 @@ function Dashboard() {
     }
   };
 
+  const fetchHistoricalAnalytics = async () => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/llm-context`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data && data.analytics_summary) {
+          setHistoricalAnalytics(data.analytics_summary);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to fetch historical analytics", err);
+    }
+  };
+
   useEffect(() => {
     fetchReport(); // initial fetch
+    fetchHistoricalAnalytics();
     const interval = setInterval(fetchReport, 2000);
-    return () => clearInterval(interval);
+    const analyticsInterval = setInterval(fetchHistoricalAnalytics, 10000); // every 10s
+    return () => {
+      clearInterval(interval);
+      clearInterval(analyticsInterval);
+    };
   }, []);
 
   if (!report) {
@@ -362,6 +402,8 @@ function Dashboard() {
   ];
 
   const COLORS = ["#818cf8", "#fbbf24", "#f43f5e", "#10b981", "#c084fc", "#facc15", "#fb923c", "#38bdf8"];
+
+  const pred = report.prediction;
 
   // SVG circular gauge calculation
   const gaugeRadius = 80;
@@ -544,6 +586,133 @@ function Dashboard() {
           </div>
         </section>
 
+        {/* Predictive Intelligence Section */}
+        {pred && (
+          <section className="rounded-2xl border border-indigo-500/30 bg-gradient-to-br from-slate-900 via-indigo-950/40 to-slate-900 shadow-[0_0_30px_rgba(99,102,241,0.05)] p-8 mb-8 relative overflow-hidden backdrop-blur-sm">
+            <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-indigo-400 to-violet-600"></div>
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <Brain className="h-5 w-5 text-indigo-400" />
+                <h2 className="text-sm font-bold tracking-wider text-indigo-300 uppercase">Predictive Intelligence Engine (LSTM)</h2>
+                <span className="px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-mono ml-2 border border-indigo-500/30">
+                  {pred.model_status}
+                </span>
+              </div>
+              <div className="text-xs font-mono text-indigo-400 flex items-center gap-2 bg-indigo-900/40 px-3 py-1 rounded-full">
+                Confidence: <span className="font-bold">{pred.confidence}%</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-5 mb-8">
+              <div className="bg-slate-950/60 rounded-xl p-5 border border-slate-800 shadow-inner">
+                <div className="text-xs text-slate-400 uppercase tracking-wider mb-1">Current Stress</div>
+                <div className="text-3xl font-bold text-white flex items-end gap-2">
+                  {report.stress.score} <span className="text-sm text-slate-500 font-normal mb-1">/ 100</span>
+                </div>
+              </div>
+              <div className="bg-slate-950/60 rounded-xl p-5 border border-indigo-500/20 relative overflow-hidden shadow-[inset_0_2px_10px_rgba(99,102,241,0.05)]">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-indigo-400/30"></div>
+                <div className="text-xs text-indigo-300 uppercase tracking-wider mb-1">Forecast +15m</div>
+                <div className="text-3xl font-bold text-indigo-100 flex items-end gap-2">
+                  {pred.predicted_stress_15m} <span className="text-sm text-indigo-500/50 font-normal mb-1">/ 100</span>
+                </div>
+              </div>
+              <div className="bg-slate-950/60 rounded-xl p-5 border border-violet-500/20 relative overflow-hidden shadow-[inset_0_2px_10px_rgba(139,92,246,0.05)]">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-violet-500 to-violet-400/30"></div>
+                <div className="text-xs text-violet-300 uppercase tracking-wider mb-1">Forecast +30m</div>
+                <div className="text-3xl font-bold text-violet-100 flex items-end gap-2">
+                  {pred.predicted_stress_30m} <span className="text-sm text-violet-500/50 font-normal mb-1">/ 100</span>
+                </div>
+              </div>
+              <div className={`bg-slate-950/60 rounded-xl p-5 border ${pred.risk_level === 'CRITICAL' || pred.risk_level === 'HIGH' ? 'border-rose-500/30 shadow-[inset_0_2px_15px_rgba(244,63,94,0.1)]' : 'border-slate-800'} relative overflow-hidden`}>
+                <div className={`absolute top-0 left-0 w-full h-1 ${pred.risk_level === 'CRITICAL' || pred.risk_level === 'HIGH' ? 'bg-gradient-to-r from-rose-500 to-rose-400/30' : 'bg-slate-700/30'}`}></div>
+                <div className={`text-xs ${pred.risk_level === 'CRITICAL' || pred.risk_level === 'HIGH' ? 'text-rose-400' : 'text-slate-400'} uppercase tracking-wider mb-1`}>Burnout Risk</div>
+                <div className="flex justify-between items-end">
+                  <div className={`text-3xl font-bold ${pred.risk_level === 'CRITICAL' || pred.risk_level === 'HIGH' ? 'text-rose-100' : 'text-white'} flex items-end gap-2`}>
+                    {pred.burnout_risk}%
+                  </div>
+                  <div className={`text-xs font-bold px-2 py-1 rounded bg-slate-950 border ${pred.risk_level === 'CRITICAL' || pred.risk_level === 'HIGH' ? 'border-rose-500/30 text-rose-400' : 'border-slate-800 text-slate-400'}`}>
+                    {pred.risk_level}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-slate-950/40 rounded-xl p-5 border border-indigo-500/10 backdrop-blur-sm">
+              <h3 className="text-xs font-semibold tracking-wider text-slate-400 uppercase mb-3">Key Predicted Contributors</h3>
+              <div className="flex flex-wrap gap-2">
+                {pred.top_factors.map((factor, idx) => (
+                  <span key={idx} className="bg-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded border border-slate-700 shadow-sm">
+                    {factor}
+                  </span>
+                ))}
+              </div>
+            </div>
+            
+            {/* Predictive Alerts Display */}
+            {report.alert.predictive_alerts && report.alert.predictive_alerts.length > 0 && (
+              <div className="mt-4 space-y-2">
+                {report.alert.predictive_alerts.map((alert, idx) => (
+                  <div key={idx} className="flex items-center gap-2 text-xs font-mono text-rose-400 bg-rose-500/10 px-3 py-2 rounded border border-rose-500/20">
+                    <AlertTriangle className="h-3.5 w-3.5" />
+                    {alert}
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
+
+        {/* Historical Analytics Section */}
+        {historicalAnalytics && (
+          <section className="rounded-2xl border border-emerald-500/30 bg-gradient-to-br from-slate-900 via-emerald-950/20 to-slate-900 shadow-[0_0_30px_rgba(16,185,129,0.05)] p-8 mb-8 relative overflow-hidden backdrop-blur-sm">
+            <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-emerald-400 to-teal-600"></div>
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <Clock className="h-5 w-5 text-emerald-400" />
+                <h2 className="text-sm font-bold tracking-wider text-emerald-300 uppercase">Historical Context & Analytics</h2>
+                <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-mono ml-2 border border-emerald-500/30">
+                  LLM-Ready
+                </span>
+              </div>
+              <div className="text-xs font-mono text-emerald-400 flex items-center gap-2 bg-emerald-900/40 px-3 py-1 rounded-full">
+                Snapshots: <span className="font-bold">{historicalAnalytics.snapshot_count || 0}</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+              <div className="bg-slate-950/60 rounded-xl p-4 border border-slate-800">
+                <div className="text-[10px] text-slate-400 uppercase tracking-wider mb-1">Avg Stress (60m)</div>
+                <div className="text-2xl font-bold text-white">{historicalAnalytics.average_stress || 0}</div>
+              </div>
+              <div className="bg-slate-950/60 rounded-xl p-4 border border-slate-800">
+                <div className="text-[10px] text-slate-400 uppercase tracking-wider mb-1">Stress Trend</div>
+                <div className={`text-sm font-bold ${historicalAnalytics.stress_trend === 'RISING' ? 'text-rose-400' : historicalAnalytics.stress_trend === 'DECLINING' ? 'text-emerald-400' : 'text-amber-400'} mt-1`}>
+                  {historicalAnalytics.stress_trend || 'STABLE'}
+                </div>
+              </div>
+              <div className="bg-slate-950/60 rounded-xl p-4 border border-slate-800">
+                <div className="text-[10px] text-slate-400 uppercase tracking-wider mb-1">Fatigue Trend</div>
+                <div className={`text-sm font-bold ${historicalAnalytics.fatigue_trend === 'RISING' ? 'text-rose-400' : historicalAnalytics.fatigue_trend === 'DECLINING' ? 'text-emerald-400' : 'text-amber-400'} mt-1`}>
+                  {historicalAnalytics.fatigue_trend || 'STABLE'}
+                </div>
+              </div>
+              <div className="bg-slate-950/60 rounded-xl p-4 border border-slate-800">
+                <div className="text-[10px] text-slate-400 uppercase tracking-wider mb-1">Attention Trend</div>
+                <div className={`text-sm font-bold ${historicalAnalytics.attention_trend === 'DECLINING' ? 'text-rose-400' : historicalAnalytics.attention_trend === 'RISING' ? 'text-emerald-400' : 'text-amber-400'} mt-1`}>
+                  {historicalAnalytics.attention_trend || 'STABLE'}
+                </div>
+              </div>
+              <div className="bg-slate-950/60 rounded-xl p-4 border border-slate-800">
+                <div className="text-[10px] text-slate-400 uppercase tracking-wider mb-1">Burnout Risk Trend</div>
+                <div className={`text-sm font-bold ${historicalAnalytics.burnout_risk_trend === 'RISING' ? 'text-rose-400' : historicalAnalytics.burnout_risk_trend === 'DECLINING' ? 'text-emerald-400' : 'text-amber-400'} mt-1`}>
+                  {historicalAnalytics.burnout_risk_trend || 'STABLE'}
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Dashboard Grid Row 2: Live Stress Trend */}
         <section className="rounded-xl border border-slate-900 bg-slate-900/30 p-6 mb-8">
           <div className="flex items-center justify-between mb-6">
@@ -592,10 +761,31 @@ function Dashboard() {
                 <Area
                   type="monotone"
                   dataKey="score"
+                  name="Current Stress"
                   stroke="#6366f1"
                   strokeWidth={2}
                   fillOpacity={1}
                   fill="url(#colorScore)"
+                />
+                <Area
+                  type="monotone"
+                  dataKey="pred15m"
+                  name="Predicted (+15m)"
+                  stroke="#8b5cf6"
+                  strokeWidth={2}
+                  strokeDasharray="4 4"
+                  fillOpacity={0}
+                  fill="none"
+                />
+                <Area
+                  type="monotone"
+                  dataKey="pred30m"
+                  name="Predicted (+30m)"
+                  stroke="#c084fc"
+                  strokeWidth={1.5}
+                  strokeDasharray="2 4"
+                  fillOpacity={0}
+                  fill="none"
                 />
               </AreaChart>
             </ResponsiveContainer>

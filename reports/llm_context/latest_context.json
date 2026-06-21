@@ -1,0 +1,64 @@
+{
+    "current_state": "RELAXED",
+    "stress_score": 2.4,
+    "burnout_risk": 4,
+    "fatigue_index": 20,
+    "attention_score": 100,
+    "engagement_score": 80,
+    "top_risk_factors": [],
+    "recent_events": [
+        {
+            "timestamp": "2026-06-21T13:00:03.536352",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 78,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:00:01.503142",
+            "event_type": "ENGAGEMENT_DROP",
+            "severity": "HIGH",
+            "score": 44,
+            "details": {
+                "decrease_points": 36
+            }
+        },
+        {
+            "timestamp": "2026-06-21T13:00:01.503142",
+            "event_type": "LOW_ATTENTION",
+            "severity": "MEDIUM",
+            "score": 0,
+            "details": {}
+        }
+    ],
+    "session_summary": {
+        "yawn_count": 0,
+        "frustration_events": 0,
+        "attention_drops": 1,
+        "posture_violations": 0,
+        "fatigue_spikes": 0,
+        "cognitive_overload_events": 0,
+        "wellness_alerts": 0
+    },
+    "prediction": {
+        "predicted_stress_15m": 0,
+        "predicted_stress_30m": 0,
+        "burnout_risk": 4,
+        "risk_level": "LOW",
+        "confidence": 45,
+        "top_factors": [
+            "Typing Variance Increase",
+            "Attention Decline"
+        ],
+        "model_status": "Baseline Heuristic"
+    },
+    "analytics_summary": {
+        "snapshot_count": 2,
+        "average_stress": 2,
+        "peak_stress": 2,
+        "stress_trend": "STABLE",
+        "fatigue_trend": "STABLE",
+        "attention_trend": "STABLE",
+        "burnout_risk_trend": "STABLE"
+    }
+}

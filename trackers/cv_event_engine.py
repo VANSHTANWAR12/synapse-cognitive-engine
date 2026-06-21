@@ -6,10 +6,16 @@ from datetime import datetime
 class CVEventEngine:
     def __init__(self, reports_dir="reports"):
         self.reports_dir = reports_dir
-        os.makedirs(self.reports_dir, exist_ok=True)
         
-        self.events_file = os.path.join(self.reports_dir, "cv_events.json")
-        self.summary_file = os.path.join(self.reports_dir, "session_summary.json")
+        self.events_dir = os.path.join(self.reports_dir, "events")
+        self.summaries_dir = os.path.join(self.reports_dir, "summaries")
+        
+        os.makedirs(self.reports_dir, exist_ok=True)
+        os.makedirs(self.events_dir, exist_ok=True)
+        os.makedirs(self.summaries_dir, exist_ok=True)
+        
+        self.events_file = os.path.join(self.events_dir, "cv_events.json")
+        self.summary_file = os.path.join(self.summaries_dir, "session_summary.json")
         
         # Load from files on startup
         self.events = self._load_events()

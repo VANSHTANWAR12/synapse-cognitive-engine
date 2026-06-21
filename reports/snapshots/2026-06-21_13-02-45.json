@@ -1,0 +1,218 @@
+{
+    "timestamp": "2026-06-21T13:02:45.917579",
+    "stress": {
+        "score": 2.4,
+        "level": "Relaxed"
+    },
+    "contributors": {
+        "typing": 0,
+        "context_switching": 0,
+        "mouse_activity": 0.0,
+        "fatigue": 2.4,
+        "posture": 0.0,
+        "attention": 0.0,
+        "frustration": 0.0,
+        "stress_expression": 0.0
+    },
+    "recommendation": {
+        "title": "Keep Working",
+        "reason": "Stress levels are normal."
+    },
+    "metrics": {
+        "keyboard": {
+            "keys_per_min": 0,
+            "backspaces_per_min": 0,
+            "avg_pause": 0,
+            "long_pause_count": 0,
+            "typing_variance": 0
+        },
+        "mouse": {
+            "mouse_speed": 0.0,
+            "click_rate": 0,
+            "movement_distance": 0
+        },
+        "window": {
+            "active_window": "Synapse Backend - python  -m uvicorn backend:app --host 127.0.0.1 --port 8000 --reload",
+            "window_switches": 0
+        },
+        "session": {
+            "session_minutes": 0.0,
+            "break_count": 0,
+            "time_since_last_break": 0.0
+        },
+        "cv": {
+            "cv_metrics": {
+                "posture_score": 100,
+                "blink_rate": 0,
+                "eye_fatigue_score": 80,
+                "yawn_count": 0,
+                "attention_score": 100,
+                "screen_distance_cm": 60.0,
+                "head_stability_score": 100,
+                "presence_percentage": 0.0,
+                "fatigue_index": 20,
+                "engagement_index": 80,
+                "engagement_score": 80,
+                "wellness_score": 92,
+                "head_tilt": 0.0,
+                "neck_angle": 0.0,
+                "slouch_detected": false,
+                "focused": true,
+                "face_present": false,
+                "distance_risk": 0,
+                "frustration_score": 0,
+                "stress_expression_score": 0,
+                "emotional_valence": "Neutral",
+                "cognitive_overload_score": 16,
+                "mood_trend": "Stable",
+                "eye_focus": 100,
+                "mouth_aspect_ratio": 0.0
+            },
+            "recent_events": [
+                {
+                    "timestamp": "2026-06-21T13:00:03.536352",
+                    "event_type": "ATTENTION_RECOVERED",
+                    "severity": "LOW",
+                    "score": 78,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T13:00:01.503142",
+                    "event_type": "ENGAGEMENT_DROP",
+                    "severity": "HIGH",
+                    "score": 44,
+                    "details": {
+                        "decrease_points": 36
+                    }
+                },
+                {
+                    "timestamp": "2026-06-21T13:00:01.503142",
+                    "event_type": "LOW_ATTENTION",
+                    "severity": "MEDIUM",
+                    "score": 0,
+                    "details": {}
+                }
+            ],
+            "session_summary": {
+                "yawn_count": 0,
+                "frustration_events": 0,
+                "attention_drops": 1,
+                "posture_violations": 0,
+                "fatigue_spikes": 0,
+                "cognitive_overload_events": 0,
+                "wellness_alerts": 0
+            },
+            "posture_score": 100,
+            "blink_rate": 0,
+            "eye_fatigue_score": 80,
+            "yawn_count": 0,
+            "attention_score": 100,
+            "screen_distance_cm": 60.0,
+            "head_stability_score": 100,
+            "presence_percentage": 0.0,
+            "fatigue_index": 20,
+            "engagement_index": 80,
+            "engagement_score": 80,
+            "wellness_score": 92,
+            "head_tilt": 0.0,
+            "neck_angle": 0.0,
+            "slouch_detected": false,
+            "focused": true,
+            "face_present": false,
+            "distance_risk": 0,
+            "frustration_score": 0,
+            "stress_expression_score": 0,
+            "emotional_valence": "Neutral",
+            "cognitive_overload_score": 16,
+            "mood_trend": "Stable",
+            "eye_focus": 100,
+            "mouth_aspect_ratio": 0.0
+        },
+        "prediction": {
+            "predicted_stress_15m": 0,
+            "predicted_stress_30m": 0,
+            "burnout_risk": 4,
+            "risk_level": "LOW",
+            "confidence": 45,
+            "top_factors": [
+                "Typing Variance Increase",
+                "Attention Decline"
+            ],
+            "model_status": "Baseline Heuristic"
+        }
+    },
+    "cv_metrics": {
+        "posture_score": 100,
+        "blink_rate": 0,
+        "eye_fatigue_score": 80,
+        "yawn_count": 0,
+        "attention_score": 100,
+        "screen_distance_cm": 60.0,
+        "head_stability_score": 100,
+        "presence_percentage": 0.0,
+        "fatigue_index": 20,
+        "engagement_index": 80,
+        "engagement_score": 80,
+        "wellness_score": 92,
+        "head_tilt": 0.0,
+        "neck_angle": 0.0,
+        "slouch_detected": false,
+        "focused": true,
+        "face_present": false,
+        "distance_risk": 0,
+        "frustration_score": 0,
+        "stress_expression_score": 0,
+        "emotional_valence": "Neutral",
+        "cognitive_overload_score": 16,
+        "mood_trend": "Stable",
+        "eye_focus": 100,
+        "mouth_aspect_ratio": 0.0
+    },
+    "recent_events": [
+        {
+            "timestamp": "2026-06-21T13:00:03.536352",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 78,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:00:01.503142",
+            "event_type": "ENGAGEMENT_DROP",
+            "severity": "HIGH",
+            "score": 44,
+            "details": {
+                "decrease_points": 36
+            }
+        },
+        {
+            "timestamp": "2026-06-21T13:00:01.503142",
+            "event_type": "LOW_ATTENTION",
+            "severity": "MEDIUM",
+            "score": 0,
+            "details": {}
+        }
+    ],
+    "session_summary": {
+        "yawn_count": 0,
+        "frustration_events": 0,
+        "attention_drops": 1,
+        "posture_violations": 0,
+        "fatigue_spikes": 0,
+        "cognitive_overload_events": 0,
+        "wellness_alerts": 0
+    },
+    "predictive": {
+        "predicted_stress_15m": 0,
+        "predicted_stress_30m": 0,
+        "burnout_risk": 4,
+        "risk_level": "LOW",
+        "confidence": 45,
+        "top_factors": [
+            "Typing Variance Increase",
+            "Attention Decline"
+        ],
+        "model_status": "Baseline Heuristic"
+    },
+    "current_state": "ACTIVE"
+}
