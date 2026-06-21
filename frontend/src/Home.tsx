@@ -68,7 +68,7 @@ export default function Home({ onLaunch }: HomeProps) {
             <Brain className="h-4 w-4 text-indigo-400 group-hover:scale-110 transition-transform" />
           </a>
           <a 
-            href="https://app.notion.com/p/17241a79c4b344c4aae61864a0289a84?v=fddeda1612ff442fbc3598cf8aec7aee"
+            href="https://app.notion.com/p/StudentOS-30d5d0ef8a0283d38d0301a888ce1ee0?pvs=13"
             target="_blank"
             rel="noopener noreferrer"
             className="group relative inline-flex items-center gap-2 px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white font-semibold rounded-full border border-slate-850 transition-all overflow-hidden"
