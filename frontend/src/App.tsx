@@ -169,7 +169,7 @@ interface TrendPoint {
 
 const BACKEND_URL = "http://127.0.0.1:8000";
 
-function Dashboard() {
+function Dashboard({ onNavigateHome }: { onNavigateHome: () => void }) {
   const [report, setReport] = useState<StressReport | null>(null);
   const [trendData, setTrendData] = useState<TrendPoint[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -416,7 +416,10 @@ function Dashboard() {
       {/* Top Banner / Navbar */}
       <header className="border-b border-slate-900 bg-slate-950/80 backdrop-blur-md sticky top-0 z-50">
         <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <div 
+            className="flex items-center gap-3 cursor-pointer select-none hover:opacity-80 transition-opacity"
+            onClick={onNavigateHome}
+          >
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-500/10 border border-indigo-500/30">
               <Brain className="h-5 w-5 text-indigo-400" />
             </div>
@@ -1212,5 +1215,5 @@ export default function App() {
     return <Home onLaunch={() => setView('dashboard')} />;
   }
 
-  return <Dashboard />;
+  return <Dashboard onNavigateHome={() => setView('home')} />;
 }
