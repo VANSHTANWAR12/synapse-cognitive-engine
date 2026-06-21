@@ -40,6 +40,29 @@ def main():
     print("[Synapse Launcher] Starting Synapse Engine...", flush=True)
     print("[Synapse Launcher] Starting FastAPI backend on http://127.0.0.1:8000 ...", flush=True)
     
+    # Check and free port 8000 if it's already in use
+    try:
+        if sys.platform.startswith("win"):
+            # Check if port 8000 is bound
+            netstat_output = subprocess.run(
+                ["netstat", "-ano", "-p", "tcp"],
+                capture_output=True,
+                text=True,
+                check=True
+            ).stdout
+            # Search for a line matching port 8000
+            for line in netstat_output.splitlines():
+                if ":8000 " in line:
+                    parts = line.strip().split()
+                    if len(parts) >= 5:
+                        pid = parts[-1]
+                        print(f"[Synapse Launcher] Port 8000 is already in use by PID {pid}. Cleaning up...", flush=True)
+                        subprocess.run(["taskkill", "/F", "/T", "/PID", pid], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                        time.sleep(1) # wait for the port to release
+                        break
+    except Exception as e:
+        print(f"[Synapse Launcher] Warning: Could not auto-clear port 8000: {e}", flush=True)
+
     # Start backend
     backend_process = subprocess.Popen(
         [sys.executable, "-m", "uvicorn", "backend:app", "--host", "127.0.0.1", "--port", "8000"],

@@ -4,6 +4,7 @@ from trackers.keyboard_tracker import KeyboardTracker
 from trackers.mouse_tracker import MouseTracker
 from trackers.window_tracker import WindowTracker
 from trackers.session_tracker import SessionTracker
+from trackers.cv_tracker import CVTracker
 
 
 class MetricsAggregator:
@@ -14,9 +15,11 @@ class MetricsAggregator:
         self.mouse = MouseTracker()
         self.window = WindowTracker()
         self.session = SessionTracker()
+        self.cv = CVTracker()
 
         self.keyboard.start()
         self.mouse.start()
+        self.cv.start()
 
         self.break_threshold = 300
 
@@ -48,17 +51,25 @@ class MetricsAggregator:
 
         self.update_session()
 
+        keyboard_metrics = self.keyboard.get_metrics()
+        mouse_metrics = self.mouse.get_metrics()
+        window_metrics = self.window.get_metrics()
+        session_metrics = self.session.get_metrics()
+        cv_metrics = self.cv.get_metrics(
+            keyboard=keyboard_metrics,
+            window=window_metrics,
+            session=session_metrics
+        )
+
         return {
 
-            "keyboard":
-                self.keyboard.get_metrics(),
+            "keyboard": keyboard_metrics,
 
-            "mouse":
-                self.mouse.get_metrics(),
+            "mouse": mouse_metrics,
 
-            "window":
-                self.window.get_metrics(),
+            "window": window_metrics,
 
-            "session":
-                self.session.get_metrics()
+            "session": session_metrics,
+            
+            "cv": cv_metrics
         }

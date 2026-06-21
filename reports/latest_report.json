@@ -1,40 +1,75 @@
 {
-    "timestamp": "2026-06-19T19:00:11.490776",
+    "timestamp": "2026-06-21T10:13:23.489835",
     "stress": {
-        "score": 62.25,
-        "level": "High Stress"
+        "score": 45.05,
+        "level": "Mild Stress"
     },
     "contributors": {
-        "typing": 27.15,
+        "typing": 5.86,
         "context_switching": 15,
-        "mouse_activity": 20,
-        "fatigue": 0.1
+        "mouse_activity": 7.2,
+        "fatigue": 3.36,
+        "posture": 0.8,
+        "attention": 0.07,
+        "frustration": 7.0,
+        "stress_expression": 5.76
     },
     "recommendation": {
-        "title": "Slow Down",
-        "reason": "Typing behavior suggests frustration."
+        "title": "Reduce Context Switching",
+        "reason": "Frequent application switching detected."
+    },
+    "alert": {
+        "alert": true,
+        "severity": "HIGH",
+        "reason": "Elevated frustration signals detected."
     },
     "metrics": {
         "keyboard": {
-            "keys_per_min": 54,
-            "backspaces_per_min": 29,
-            "avg_pause": 0.13,
-            "long_pause_count": 0,
-            "typing_variance": 0.15
+            "keys_per_min": 0,
+            "backspaces_per_min": 0,
+            "avg_pause": 0.43,
+            "long_pause_count": 1,
+            "typing_variance": 2.01
         },
         "mouse": {
-            "mouse_speed": 89.99,
-            "click_rate": 30,
-            "movement_distance": 5399.38
+            "mouse_speed": 218.45,
+            "click_rate": 6,
+            "movement_distance": 13106.91
         },
         "window": {
-            "active_window": "frontend - Google Chrome",
-            "window_switches": 3
+            "active_window": "synapse-cognitive-engine - Antigravity IDE - README_wellness_cv.md",
+            "window_switches": 6
         },
         "session": {
-            "session_minutes": 0.5,
+            "session_minutes": 1.92,
             "break_count": 0,
-            "time_since_last_break": 0.5
+            "time_since_last_break": 1.92
+        },
+        "cv": {
+            "posture_score": 90,
+            "blink_rate": 29,
+            "eye_fatigue_score": 20,
+            "yawn_count": 1,
+            "attention_score": 99,
+            "screen_distance_cm": 44.2,
+            "head_stability_score": 0,
+            "presence_percentage": 97.3,
+            "fatigue_index": 28,
+            "engagement_index": 79,
+            "engagement_score": 79,
+            "wellness_score": 77,
+            "head_tilt": -4.8,
+            "neck_angle": 0.0,
+            "slouch_detected": false,
+            "focused": true,
+            "face_present": true,
+            "distance_risk": 0,
+            "frustration_score": 70,
+            "stress_expression_score": 72,
+            "emotional_valence": "Positive",
+            "cognitive_overload_score": 38,
+            "mood_trend": "Declining",
+            "eye_focus": 100
         }
     }
 }

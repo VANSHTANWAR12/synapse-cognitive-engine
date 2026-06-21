@@ -292,14 +292,13 @@ The application will:
 
 ---
 
+# Core Implemented Feature: Computer Vision Wellness & Cognitive Analytics
+
+The platform now features an advanced, real-time [Computer Vision Wellness & Cognitive Analytics](file:///c:/Users/vansh%20tanwar/synapse-cognitive-engine/README_wellness_cv.md) engine using MediaPipe Face Mesh. This tracks posture, attention, frustration, fatigue, engagement, stress expressions, and emotional valence while strictly upholding user privacy.
+
+---
+
 # Future Enhancements
-
-### Computer Vision Module
-
-* Posture Detection
-* Blink Rate Analysis
-* Face Presence Monitoring
-* Fatigue Detection
 
 ### Machine Learning
 

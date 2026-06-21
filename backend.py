@@ -24,13 +24,53 @@ os.makedirs("reports", exist_ok=True)
 DEFAULT_REPORT = {
     "timestamp": datetime.now().isoformat(),
     "stress": {"score": 0.0, "level": "Relaxed"},
-    "contributors": {"typing": 0.0, "context_switching": 0.0, "mouse_activity": 0.0, "fatigue": 0.0},
+    "contributors": {
+        "typing": 0.0, 
+        "context_switching": 0.0, 
+        "mouse_activity": 0.0, 
+        "fatigue": 0.0,
+        "posture": 0.0,
+        "attention": 0.0,
+        "frustration": 0.0,
+        "stress_expression": 0.0
+    },
     "recommendation": {"title": "Initializing", "reason": "Gathering initial data..."},
+    "alert": {
+        "alert": False,
+        "severity": "LOW",
+        "reason": "Wellness metrics are within normal range."
+    },
     "metrics": {
         "keyboard": {"keys_per_min": 0, "backspaces_per_min": 0, "avg_pause": 0.0, "long_pause_count": 0, "typing_variance": 0.0},
         "mouse": {"mouse_speed": 0.0, "click_rate": 0, "movement_distance": 0.0},
         "window": {"active_window": "None", "window_switches": 0},
-        "session": {"session_minutes": 0.0, "break_count": 0, "time_since_last_break": 0.0}
+        "session": {"session_minutes": 0.0, "break_count": 0, "time_since_last_break": 0.0},
+        "cv": {
+            "posture_score": 100,
+            "blink_rate": 0,
+            "eye_fatigue_score": 0,
+            "yawn_count": 0,
+            "attention_score": 100,
+            "screen_distance_cm": 60.0,
+            "head_stability_score": 100,
+            "presence_percentage": 0.0,
+            "fatigue_index": 0,
+            "engagement_index": 100,
+            "engagement_score": 100,
+            "wellness_score": 100,
+            "head_tilt": 0.0,
+            "neck_angle": 0.0,
+            "slouch_detected": False,
+            "focused": True,
+            "face_present": False,
+            "distance_risk": 0,
+            "frustration_score": 0,
+            "stress_expression_score": 0,
+            "emotional_valence": "Neutral",
+            "cognitive_overload_score": 0,
+            "mood_trend": "Stable",
+            "eye_focus": 100
+        }
     }
 }
 

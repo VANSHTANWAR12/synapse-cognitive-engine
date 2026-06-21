@@ -7,7 +7,11 @@ import {
   CheckCircle2,
   AlertTriangle,
   Brain,
-  TrendingUp
+  TrendingUp,
+  Activity,
+  Eye,
+  Camera,
+  HeartPulse
 } from "lucide-react";
 import {
   ResponsiveContainer,
@@ -47,11 +51,32 @@ interface SessionMetrics {
   time_since_last_break: number;
 }
 
+interface CVMetrics {
+  posture_score: number;
+  blink_rate: number;
+  eye_fatigue_score: number;
+  yawn_count: number;
+  attention_score: number;
+  screen_distance_cm: number;
+  head_stability_score: number;
+  presence_percentage: number;
+  fatigue_index: number;
+  engagement_index: number;
+  wellness_score: number;
+  head_tilt: number;
+  neck_angle: number;
+  slouch_detected: boolean;
+  focused: boolean;
+  face_present: boolean;
+  distance_risk: number;
+}
+
 interface Metrics {
   keyboard: KeyboardMetrics;
   mouse: MouseMetrics;
   window: WindowMetrics;
   session: SessionMetrics;
+  cv: CVMetrics;
 }
 
 interface StressLevel {
@@ -64,10 +89,20 @@ interface StressContributors {
   context_switching: number;
   mouse_activity: number;
   fatigue: number;
+  posture: number;
+  attention: number;
+  frustration: number;
+  stress_expression: number;
 }
 
 interface Recommendation {
   title: string;
+  reason: string;
+}
+
+interface ManagerAlert {
+  alert: boolean;
+  severity: "LOW" | "MODERATE" | "HIGH" | "CRITICAL";
   reason: string;
 }
 
@@ -76,12 +111,19 @@ interface StressReport {
   stress: StressLevel;
   contributors: StressContributors;
   recommendation: Recommendation;
+  alert: ManagerAlert;
   metrics: Metrics;
 }
 
 interface TrendPoint {
   time: string;
   score: number;
+  blinkRate?: number;
+  fatigueIndex?: number;
+  attentionScore?: number;
+  wellnessScore?: number;
+  frustrationScore?: number;
+  stressScore?: number;
 }
 
 const BACKEND_URL = "http://127.0.0.1:8000";
@@ -110,7 +152,16 @@ export default function App() {
       });
 
       setTrendData((prev) => {
-        const next = [...prev, { time: timeLabel, score: data.stress.score }];
+        const next = [...prev, { 
+          time: timeLabel, 
+          score: data.stress.score,
+          blinkRate: data.metrics.cv?.blink_rate || 0,
+          fatigueIndex: data.metrics.cv?.fatigue_index || 0,
+          attentionScore: data.metrics.cv?.attention_score || 0,
+          wellnessScore: data.metrics.cv?.wellness_score || 0,
+          frustrationScore: data.metrics.cv?.frustration_score || 0,
+          stressScore: data.stress.score
+        }];
         if (next.length > 100) {
           return next.slice(next.length - 100);
         }
@@ -175,6 +226,57 @@ export default function App() {
     };
   };
 
+  const getWellnessGaugeColor = (score: number, invert = false) => {
+    if (invert) {
+      if (score < 30) return "text-emerald-400 stroke-emerald-400 bg-emerald-500/10 border-emerald-500/20";
+      if (score < 60) return "text-amber-400 stroke-amber-400 bg-amber-500/10 border-amber-500/20";
+      return "text-rose-400 stroke-rose-400 bg-rose-500/10 border-rose-500/20";
+    } else {
+      if (score > 75) return "text-emerald-400 stroke-emerald-400 bg-emerald-500/10 border-emerald-500/20";
+      if (score > 45) return "text-amber-400 stroke-amber-400 bg-amber-500/10 border-amber-500/20";
+      return "text-rose-400 stroke-rose-400 bg-rose-500/10 border-rose-500/20";
+    }
+  };
+
+  const renderMiniGauge = (title: string, value: number, invert = false, icon: React.ReactNode) => {
+    const config = getWellnessGaugeColor(value, invert);
+    const radius = 35;
+    const circ = 2 * Math.PI * radius;
+    const offset = circ - (value / 100) * circ;
+    
+    return (
+      <div className="rounded-xl border border-slate-900 bg-slate-900/20 p-4 flex flex-col items-center justify-between">
+        <div className="flex items-center gap-1.5 self-start mb-2">
+          {icon}
+          <span className="text-xs font-bold text-slate-400 tracking-wide uppercase">{title}</span>
+        </div>
+        <div className="relative flex items-center justify-center my-2">
+          <svg className="h-20 w-20 transform -rotate-90">
+            <circle cx="40" cy="40" r={radius} stroke="#1e293b" strokeWidth="6" fill="transparent" />
+            <circle 
+              cx="40" 
+              cy="40" 
+              r={radius} 
+              stroke="currentColor" 
+              strokeWidth="6" 
+              fill="transparent" 
+              strokeDasharray={circ}
+              strokeDashoffset={offset}
+              strokeLinecap="round"
+              className={`transition-all duration-1000 ease-out ${config.split(' ')[1]}`}
+            />
+          </svg>
+          <div className="absolute text-center">
+            <span className="text-lg font-bold text-white tracking-tight">{value}%</span>
+          </div>
+        </div>
+        <span className={`text-[10px] font-semibold mt-1 px-2 py-0.5 rounded ${config.split(' ')[2]} ${config.split(' ')[0]} border ${config.split(' ')[3]}`}>
+          {invert ? (value < 30 ? "Optimal" : value < 60 ? "Moderate" : "Elevated") : (value > 75 ? "Excellent" : value > 45 ? "Fair" : "Poor")}
+        </span>
+      </div>
+    );
+  };
+
   const levelConfig = getStressLevelConfig(report.stress.level);
   
   // Contributors format for Recharts
@@ -182,10 +284,14 @@ export default function App() {
     { name: "Typing Frustration", value: report.contributors.typing },
     { name: "Context Switching", value: report.contributors.context_switching },
     { name: "Mouse Activity", value: report.contributors.mouse_activity },
-    { name: "Fatigue Level", value: report.contributors.fatigue }
+    { name: "Fatigue Level", value: report.contributors.fatigue },
+    { name: "Poor Posture", value: report.contributors.posture },
+    { name: "Low Attention", value: report.contributors.attention },
+    { name: "Frustration Signals", value: report.contributors.frustration },
+    { name: "Stress Expression", value: report.contributors.stress_expression }
   ];
 
-  const COLORS = ["#818cf8", "#fbbf24", "#f43f5e", "#10b981"];
+  const COLORS = ["#818cf8", "#fbbf24", "#f43f5e", "#10b981", "#c084fc", "#facc15", "#fb923c", "#38bdf8"];
 
   // SVG circular gauge calculation
   const gaugeRadius = 80;
@@ -533,6 +639,149 @@ export default function App() {
               </div>
             </div>
 
+          </div>
+        </section>
+
+        {/* Manager Alerts System Section */}
+        <section id="manager-alerts-section" className="mb-8">
+          <div className="rounded-xl border border-slate-900 bg-slate-900/30 p-5">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <AlertTriangle className="h-4 w-4 text-rose-400" />
+                <h2 className="text-sm font-semibold tracking-wider text-slate-400 uppercase">Manager Alert System</h2>
+              </div>
+              <span className={`text-xs px-2.5 py-0.5 rounded-full font-semibold border ${
+                report.alert?.alert 
+                  ? "bg-rose-500/10 text-rose-400 border-rose-500/20" 
+                  : "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+              }`}>
+                {report.alert?.alert ? `Active - ${report.alert.severity}` : "Inactive"}
+              </span>
+            </div>
+            {report.alert?.alert ? (
+              <div className="p-4 rounded-lg bg-rose-950/20 border border-rose-500/20 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                  <span className="text-[10px] uppercase font-bold text-rose-400 tracking-wider">Severity: {report.alert.severity}</span>
+                  <p className="text-sm text-slate-200 mt-1">{report.alert.reason}</p>
+                </div>
+                <div className="text-xs text-rose-300 font-medium whitespace-nowrap bg-rose-500/10 px-3 py-1.5 rounded border border-rose-500/20 self-start md:self-auto">
+                  Action Recommended
+                </div>
+              </div>
+            ) : (
+              <div className="p-4 rounded-lg bg-slate-900/10 border border-slate-800 text-center text-xs text-slate-500">
+                All wellness metrics are within normal parameters. No active alerts.
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* Dashboard Grid Row 4: Workplace Wellness Analytics (CV) */}
+        <section className="mt-8">
+          <div className="flex items-center gap-2 mb-4">
+            <Camera className="h-5 w-5 text-indigo-400" />
+            <h2 className="text-sm font-semibold tracking-wider text-slate-400 uppercase">Workplace Wellness Analytics</h2>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+            {renderMiniGauge("Stress Level", report.stress.score, true, <HeartPulse className="h-4 w-4 text-rose-400" />)}
+            {renderMiniGauge("Frustration", report.metrics.cv?.frustration_score || 0, true, <AlertTriangle className="h-4 w-4 text-orange-400" />)}
+            {renderMiniGauge("Cognitive Overload", report.metrics.cv?.cognitive_overload_score || 0, true, <Brain className="h-4 w-4 text-purple-400" />)}
+            {renderMiniGauge("Fatigue Index", report.metrics.cv?.fatigue_index || 0, true, <Clock className="h-4 w-4 text-amber-400" />)}
+            {renderMiniGauge("Engagement", report.metrics.cv?.engagement_score || 0, false, <Activity className="h-4 w-4 text-indigo-400" />)}
+            {renderMiniGauge("Wellness", report.metrics.cv?.wellness_score || 0, false, <CheckCircle2 className="h-4 w-4 text-emerald-400" />)}
+          </div>
+
+          <div className="flex items-center gap-2 mb-4">
+            <TrendingUp className="h-5 w-5 text-indigo-400" />
+            <h2 className="text-sm font-semibold tracking-wider text-slate-400 uppercase">Wellness Trends</h2>
+          </div>
+
+          {/* Wellness Trend Charts */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Stress Trend */}
+            <div className="rounded-xl border border-slate-900 bg-slate-900/30 p-5">
+              <h3 className="text-xs font-semibold tracking-wider text-slate-400 uppercase mb-4">Stress Trend</h3>
+              <div className="h-[200px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={trendData} margin={{ top: 5, right: 0, left: -20, bottom: 0 }}>
+                    <defs>
+                      <linearGradient id="colorStress" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#818cf8" stopOpacity={0.4} />
+                        <stop offset="95%" stopColor="#818cf8" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fill: "#64748b", fontSize: 10 }} />
+                    <YAxis domain={[0, 100]} axisLine={false} tickLine={false} tick={{ fill: "#64748b", fontSize: 10 }} />
+                    <Tooltip contentStyle={{ backgroundColor: "#020617", borderColor: "#1e293b", borderRadius: "8px" }} />
+                    <Area type="monotone" dataKey="stressScore" stroke="#818cf8" fillOpacity={1} fill="url(#colorStress)" name="Stress" />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Fatigue Trend */}
+            <div className="rounded-xl border border-slate-900 bg-slate-900/30 p-5">
+              <h3 className="text-xs font-semibold tracking-wider text-slate-400 uppercase mb-4">Fatigue Trend</h3>
+              <div className="h-[200px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={trendData} margin={{ top: 5, right: 0, left: -20, bottom: 0 }}>
+                    <defs>
+                      <linearGradient id="colorFatigue" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#f43f5e" stopOpacity={0.4} />
+                        <stop offset="95%" stopColor="#f43f5e" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fill: "#64748b", fontSize: 10 }} />
+                    <YAxis domain={[0, 100]} axisLine={false} tickLine={false} tick={{ fill: "#64748b", fontSize: 10 }} />
+                    <Tooltip contentStyle={{ backgroundColor: "#020617", borderColor: "#1e293b", borderRadius: "8px" }} />
+                    <Area type="monotone" dataKey="fatigueIndex" stroke="#f43f5e" fillOpacity={1} fill="url(#colorFatigue)" name="Fatigue" />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Frustration Trend */}
+            <div className="rounded-xl border border-slate-900 bg-slate-900/30 p-5">
+              <h3 className="text-xs font-semibold tracking-wider text-slate-400 uppercase mb-4">Frustration Trend</h3>
+              <div className="h-[200px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={trendData} margin={{ top: 5, right: 0, left: -20, bottom: 0 }}>
+                    <defs>
+                      <linearGradient id="colorFrustration" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#fb923c" stopOpacity={0.4} />
+                        <stop offset="95%" stopColor="#fb923c" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fill: "#64748b", fontSize: 10 }} />
+                    <YAxis domain={[0, 100]} axisLine={false} tickLine={false} tick={{ fill: "#64748b", fontSize: 10 }} />
+                    <Tooltip contentStyle={{ backgroundColor: "#020617", borderColor: "#1e293b", borderRadius: "8px" }} />
+                    <Area type="monotone" dataKey="frustrationScore" stroke="#fb923c" fillOpacity={1} fill="url(#colorFrustration)" name="Frustration" />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Wellness Trend */}
+            <div className="rounded-xl border border-slate-900 bg-slate-900/30 p-5">
+              <h3 className="text-xs font-semibold tracking-wider text-slate-400 uppercase mb-4">Wellness Trend</h3>
+              <div className="h-[200px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={trendData} margin={{ top: 5, right: 0, left: -20, bottom: 0 }}>
+                    <defs>
+                      <linearGradient id="colorWellness" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#10b981" stopOpacity={0.4} />
+                        <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fill: "#64748b", fontSize: 10 }} />
+                    <YAxis domain={[0, 100]} axisLine={false} tickLine={false} tick={{ fill: "#64748b", fontSize: 10 }} />
+                    <Tooltip contentStyle={{ backgroundColor: "#020617", borderColor: "#1e293b", borderRadius: "8px" }} />
+                    <Area type="monotone" dataKey="wellnessScore" stroke="#10b981" fillOpacity={1} fill="url(#colorWellness)" name="Wellness" />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
           </div>
         </section>
         

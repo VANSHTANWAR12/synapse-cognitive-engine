@@ -2,3 +2,6 @@ fastapi
 uvicorn
 pynput
 pygetwindow
+opencv-python
+mediapipe
+numpy
