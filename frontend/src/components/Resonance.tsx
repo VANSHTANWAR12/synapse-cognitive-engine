@@ -14,6 +14,7 @@ export default function Resonance() {
   const [isActive, setIsActive] = useState(false);
   const [interventionStartTime, setInterventionStartTime] = useState<number | null>(null);
   const [slowBreathing, setSlowBreathing] = useState(false);
+  const [hasBeenDismissed, setHasBeenDismissed] = useState(false);
   
   // Audio context refs
   const audioCtxRef = useRef<AudioContext | null>(null);
@@ -67,7 +68,7 @@ export default function Resonance() {
 
   // Check for trigger condition
   useEffect(() => {
-    if (dataHistory.length < 3 || isActive) return;
+    if (dataHistory.length < 3 || isActive || hasBeenDismissed) return;
     
     const last3 = dataHistory.slice(-3);
     const isDeclining = last3[0].rmssd > last3[1].rmssd && last3[1].rmssd > last3[2].rmssd;
@@ -75,7 +76,7 @@ export default function Resonance() {
     if (last3[2].rmssd < 25 || isDeclining) {
       triggerIntervention();
     }
-  }, [dataHistory, isActive]);
+  }, [dataHistory, isActive, hasBeenDismissed]);
 
   // Handle 90 second lack of improvement
   useEffect(() => {
@@ -105,6 +106,7 @@ export default function Resonance() {
     setIsActive(false);
     setInterventionStartTime(null);
     stopBinauralBeats();
+    setHasBeenDismissed(true);
   };
 
   const startBinauralBeats = (slow: boolean) => {

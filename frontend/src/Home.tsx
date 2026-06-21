@@ -67,6 +67,15 @@ export default function Home({ onLaunch }: HomeProps) {
             <span>Open MindSentry</span>
             <Brain className="h-4 w-4 text-indigo-400 group-hover:scale-110 transition-transform" />
           </a>
+          <a 
+            href="https://app.notion.com/p/17241a79c4b344c4aae61864a0289a84?v=fddeda1612ff442fbc3598cf8aec7aee"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative inline-flex items-center gap-2 px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white font-semibold rounded-full border border-slate-850 transition-all overflow-hidden"
+          >
+            <span>Notion OS</span>
+            <Sparkles className="h-4 w-4 text-amber-400 group-hover:rotate-12 transition-transform" />
+          </a>
         </div>
 
         {/* Features Grid */}

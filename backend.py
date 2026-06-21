@@ -27,6 +27,7 @@ from ml.train import run_training_loop
 # Import Storage Engine
 from storage.snapshot_manager import SnapshotManager
 from storage.context_builder import ContextBuilder
+from storage.notion_sync import NotionSyncManager
 
 REPORT_FILE = os.path.join("reports", "latest_report.json")
 
@@ -161,10 +162,16 @@ async def lifespan(app: FastAPI):
     ml_train_thread = threading.Thread(target=run_training_loop, daemon=True)
     ml_train_thread.start()
     
+    # Start Notion background sync
+    global notion_sync
+    notion_sync = NotionSyncManager(interval_sec=180)
+    notion_sync.start()
+    
     rppg_engine.start()
     yield
     # Shutdown logic
     rppg_engine.stop()
+    notion_sync.stop()
 
 app = FastAPI(title="Synapse Backend", lifespan=lifespan)
 
