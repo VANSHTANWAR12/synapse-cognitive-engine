@@ -1,9 +1,9 @@
 {
     "yawn_count": 0,
-    "frustration_events": 7,
-    "attention_drops": 7,
+    "frustration_events": 12,
+    "attention_drops": 13,
     "posture_violations": 0,
-    "fatigue_spikes": 1,
-    "cognitive_overload_events": 2,
+    "fatigue_spikes": 2,
+    "cognitive_overload_events": 3,
     "wellness_alerts": 0
 }

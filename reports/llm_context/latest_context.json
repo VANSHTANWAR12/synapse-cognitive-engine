@@ -8,36 +8,166 @@
     "top_risk_factors": [],
     "recent_events": [
         {
-            "timestamp": "2026-06-21T13:00:03.536352",
+            "timestamp": "2026-06-21T13:08:27.695732",
+            "event_type": "FATIGUE_SPIKE",
+            "severity": "MEDIUM",
+            "score": 36,
+            "details": {
+                "increase_points": 16
+            }
+        },
+        {
+            "timestamp": "2026-06-21T13:08:27.695732",
             "event_type": "ATTENTION_RECOVERED",
             "severity": "LOW",
             "score": 78,
             "details": {}
         },
         {
-            "timestamp": "2026-06-21T13:00:01.503142",
-            "event_type": "ENGAGEMENT_DROP",
-            "severity": "HIGH",
-            "score": 44,
-            "details": {
-                "decrease_points": 36
-            }
-        },
-        {
-            "timestamp": "2026-06-21T13:00:01.503142",
+            "timestamp": "2026-06-21T13:08:25.628005",
             "event_type": "LOW_ATTENTION",
             "severity": "MEDIUM",
             "score": 0,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:08:21.407877",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 100,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:08:19.292629",
+            "event_type": "LOW_ATTENTION",
+            "severity": "MEDIUM",
+            "score": 32,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:07:40.460528",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 84,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:07:34.066702",
+            "event_type": "ENGAGEMENT_DROP",
+            "severity": "HIGH",
+            "score": 43,
+            "details": {
+                "decrease_points": 24
+            }
+        },
+        {
+            "timestamp": "2026-06-21T13:07:32.028856",
+            "event_type": "FACE_NOT_PRESENT",
+            "severity": "MEDIUM",
+            "score": 0,
+            "details": {
+                "absent_duration_sec": 11.1
+            }
+        },
+        {
+            "timestamp": "2026-06-21T13:07:32.028856",
+            "event_type": "LOW_ATTENTION",
+            "severity": "MEDIUM",
+            "score": 47,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:06:53.129857",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 85,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:06:40.696426",
+            "event_type": "LOW_ATTENTION",
+            "severity": "MEDIUM",
+            "score": 45,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:06:30.083276",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 100,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:06:25.900548",
+            "event_type": "NEGATIVE_EMOTIONAL_STATE",
+            "severity": "MEDIUM",
+            "score": 62,
+            "details": {
+                "valence": "Negative",
+                "duration_sec": 31.8
+            }
+        },
+        {
+            "timestamp": "2026-06-21T13:06:07.026197",
+            "event_type": "FACE_NOT_PRESENT",
+            "severity": "MEDIUM",
+            "score": 0,
+            "details": {
+                "absent_duration_sec": 10.7
+            }
+        },
+        {
+            "timestamp": "2026-06-21T13:06:02.745663",
+            "event_type": "LOW_ATTENTION",
+            "severity": "MEDIUM",
+            "score": 48,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:06:00.632689",
+            "event_type": "ENGAGEMENT_DROP",
+            "severity": "HIGH",
+            "score": 38,
+            "details": {
+                "decrease_points": 31
+            }
+        },
+        {
+            "timestamp": "2026-06-21T13:05:56.287765",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 82,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:05:54.101328",
+            "event_type": "COGNITIVE_OVERLOAD",
+            "severity": "HIGH",
+            "score": 71,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:05:54.101328",
+            "event_type": "LOW_ATTENTION",
+            "severity": "MEDIUM",
+            "score": 25,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:05:30.385235",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 90,
             "details": {}
         }
     ],
     "session_summary": {
         "yawn_count": 0,
-        "frustration_events": 0,
-        "attention_drops": 1,
+        "frustration_events": 7,
+        "attention_drops": 13,
         "posture_violations": 0,
-        "fatigue_spikes": 0,
-        "cognitive_overload_events": 0,
+        "fatigue_spikes": 2,
+        "cognitive_overload_events": 3,
         "wellness_alerts": 0
     },
     "prediction": {
@@ -47,18 +177,17 @@
         "risk_level": "LOW",
         "confidence": 45,
         "top_factors": [
-            "Typing Variance Increase",
-            "Attention Decline"
+            "Typing Variance Increase"
         ],
         "model_status": "Baseline Heuristic"
     },
     "analytics_summary": {
-        "snapshot_count": 2,
-        "average_stress": 2,
-        "peak_stress": 2,
+        "snapshot_count": 5,
+        "average_stress": 16,
+        "peak_stress": 47,
         "stress_trend": "STABLE",
         "fatigue_trend": "STABLE",
-        "attention_trend": "STABLE",
+        "attention_trend": "DECLINING",
         "burnout_risk_trend": "STABLE"
     }
 }

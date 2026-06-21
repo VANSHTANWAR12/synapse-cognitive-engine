@@ -1,0 +1,460 @@
+{
+    "timestamp": "2026-06-21T13:05:47.690992",
+    "stress": {
+        "score": 47.2,
+        "level": "Mild Stress"
+    },
+    "contributors": {
+        "typing": 12.96,
+        "context_switching": 12,
+        "mouse_activity": 6.0,
+        "fatigue": 2.4,
+        "posture": 0.72,
+        "attention": 1.54,
+        "frustration": 7.1,
+        "stress_expression": 4.48
+    },
+    "recommendation": {
+        "title": "Reduce Context Switching",
+        "reason": "Frequent application switching detected."
+    },
+    "metrics": {
+        "keyboard": {
+            "keys_per_min": 51,
+            "backspaces_per_min": 2,
+            "avg_pause": 1.98,
+            "long_pause_count": 8,
+            "typing_variance": 6.09
+        },
+        "mouse": {
+            "mouse_speed": 72.68,
+            "click_rate": 5,
+            "movement_distance": 4361.04
+        },
+        "window": {
+            "active_window": "synapse-cognitive-engine - Antigravity IDE - README_predictive.md",
+            "window_switches": 3
+        },
+        "session": {
+            "session_minutes": 3.03,
+            "break_count": 0,
+            "time_since_last_break": 3.03
+        },
+        "cv": {
+            "cv_metrics": {
+                "posture_score": 91,
+                "blink_rate": 1,
+                "eye_fatigue_score": 70,
+                "yawn_count": 0,
+                "attention_score": 78,
+                "screen_distance_cm": 45.7,
+                "head_stability_score": 0,
+                "presence_percentage": 58.9,
+                "fatigue_index": 20,
+                "engagement_index": 62,
+                "engagement_score": 62,
+                "wellness_score": 70,
+                "head_tilt": -4.5,
+                "neck_angle": 0.0,
+                "slouch_detected": false,
+                "focused": true,
+                "face_present": true,
+                "distance_risk": 0,
+                "frustration_score": 71,
+                "stress_expression_score": 56,
+                "emotional_valence": "Negative",
+                "cognitive_overload_score": 58,
+                "mood_trend": "Declining",
+                "eye_focus": 100,
+                "mouth_aspect_ratio": 0.228
+            },
+            "recent_events": [
+                {
+                    "timestamp": "2026-06-21T13:05:30.385235",
+                    "event_type": "ATTENTION_RECOVERED",
+                    "severity": "LOW",
+                    "score": 90,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T13:05:28.037074",
+                    "event_type": "COGNITIVE_OVERLOAD",
+                    "severity": "HIGH",
+                    "score": 71,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T13:05:28.037074",
+                    "event_type": "LOW_ATTENTION",
+                    "severity": "MEDIUM",
+                    "score": 38,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T13:05:07.541900",
+                    "event_type": "ATTENTION_RECOVERED",
+                    "severity": "LOW",
+                    "score": 94,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T13:05:03.449198",
+                    "event_type": "LOW_ATTENTION",
+                    "severity": "MEDIUM",
+                    "score": 46,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T13:05:01.429869",
+                    "event_type": "ATTENTION_RECOVERED",
+                    "severity": "LOW",
+                    "score": 82,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T13:04:59.334050",
+                    "event_type": "ENGAGEMENT_DROP",
+                    "severity": "HIGH",
+                    "score": 42,
+                    "details": {
+                        "decrease_points": 23
+                    }
+                },
+                {
+                    "timestamp": "2026-06-21T13:04:59.334050",
+                    "event_type": "LOW_ATTENTION",
+                    "severity": "MEDIUM",
+                    "score": 31,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T13:04:50.114569",
+                    "event_type": "HIGH_FRUSTRATION",
+                    "severity": "HIGH",
+                    "score": 75,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T13:04:41.067046",
+                    "event_type": "HIGH_FRUSTRATION",
+                    "severity": "HIGH",
+                    "score": 76,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T13:04:36.441634",
+                    "event_type": "HIGH_FRUSTRATION",
+                    "severity": "HIGH",
+                    "score": 75,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T13:04:25.942796",
+                    "event_type": "HIGH_FRUSTRATION",
+                    "severity": "HIGH",
+                    "score": 71,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T13:04:15.142966",
+                    "event_type": "HIGH_FRUSTRATION",
+                    "severity": "HIGH",
+                    "score": 71,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T13:04:05.787510",
+                    "event_type": "ATTENTION_RECOVERED",
+                    "severity": "LOW",
+                    "score": 80,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T13:03:59.207296",
+                    "event_type": "COGNITIVE_OVERLOAD",
+                    "severity": "HIGH",
+                    "score": 76,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T13:03:57.012985",
+                    "event_type": "LOW_ATTENTION",
+                    "severity": "MEDIUM",
+                    "score": 49,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T13:03:57.012985",
+                    "event_type": "HIGH_FRUSTRATION",
+                    "severity": "HIGH",
+                    "score": 72,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T13:03:46.299226",
+                    "event_type": "ATTENTION_RECOVERED",
+                    "severity": "LOW",
+                    "score": 78,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T13:03:41.986652",
+                    "event_type": "HIGH_FRUSTRATION",
+                    "severity": "HIGH",
+                    "score": 63,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T13:03:35.705356",
+                    "event_type": "NEGATIVE_EMOTIONAL_STATE",
+                    "severity": "MEDIUM",
+                    "score": 44,
+                    "details": {
+                        "valence": "Negative",
+                        "duration_sec": 31.1
+                    }
+                }
+            ],
+            "session_summary": {
+                "yawn_count": 0,
+                "frustration_events": 7,
+                "attention_drops": 7,
+                "posture_violations": 0,
+                "fatigue_spikes": 1,
+                "cognitive_overload_events": 2,
+                "wellness_alerts": 0
+            },
+            "posture_score": 91,
+            "blink_rate": 1,
+            "eye_fatigue_score": 70,
+            "yawn_count": 0,
+            "attention_score": 78,
+            "screen_distance_cm": 45.7,
+            "head_stability_score": 0,
+            "presence_percentage": 58.9,
+            "fatigue_index": 20,
+            "engagement_index": 62,
+            "engagement_score": 62,
+            "wellness_score": 70,
+            "head_tilt": -4.5,
+            "neck_angle": 0.0,
+            "slouch_detected": false,
+            "focused": true,
+            "face_present": true,
+            "distance_risk": 0,
+            "frustration_score": 71,
+            "stress_expression_score": 56,
+            "emotional_valence": "Negative",
+            "cognitive_overload_score": 58,
+            "mood_trend": "Declining",
+            "eye_focus": 100,
+            "mouth_aspect_ratio": 0.228
+        },
+        "prediction": {
+            "predicted_stress_15m": 40,
+            "predicted_stress_30m": 33,
+            "burnout_risk": 30,
+            "risk_level": "LOW",
+            "confidence": 45,
+            "top_factors": [
+                "Typing Variance Increase"
+            ],
+            "model_status": "Baseline Heuristic"
+        }
+    },
+    "cv_metrics": {
+        "posture_score": 91,
+        "blink_rate": 1,
+        "eye_fatigue_score": 70,
+        "yawn_count": 0,
+        "attention_score": 78,
+        "screen_distance_cm": 45.7,
+        "head_stability_score": 0,
+        "presence_percentage": 58.9,
+        "fatigue_index": 20,
+        "engagement_index": 62,
+        "engagement_score": 62,
+        "wellness_score": 70,
+        "head_tilt": -4.5,
+        "neck_angle": 0.0,
+        "slouch_detected": false,
+        "focused": true,
+        "face_present": true,
+        "distance_risk": 0,
+        "frustration_score": 71,
+        "stress_expression_score": 56,
+        "emotional_valence": "Negative",
+        "cognitive_overload_score": 58,
+        "mood_trend": "Declining",
+        "eye_focus": 100,
+        "mouth_aspect_ratio": 0.228
+    },
+    "recent_events": [
+        {
+            "timestamp": "2026-06-21T13:05:30.385235",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 90,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:05:28.037074",
+            "event_type": "COGNITIVE_OVERLOAD",
+            "severity": "HIGH",
+            "score": 71,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:05:28.037074",
+            "event_type": "LOW_ATTENTION",
+            "severity": "MEDIUM",
+            "score": 38,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:05:07.541900",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 94,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:05:03.449198",
+            "event_type": "LOW_ATTENTION",
+            "severity": "MEDIUM",
+            "score": 46,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:05:01.429869",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 82,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:04:59.334050",
+            "event_type": "ENGAGEMENT_DROP",
+            "severity": "HIGH",
+            "score": 42,
+            "details": {
+                "decrease_points": 23
+            }
+        },
+        {
+            "timestamp": "2026-06-21T13:04:59.334050",
+            "event_type": "LOW_ATTENTION",
+            "severity": "MEDIUM",
+            "score": 31,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:04:50.114569",
+            "event_type": "HIGH_FRUSTRATION",
+            "severity": "HIGH",
+            "score": 75,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:04:41.067046",
+            "event_type": "HIGH_FRUSTRATION",
+            "severity": "HIGH",
+            "score": 76,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:04:36.441634",
+            "event_type": "HIGH_FRUSTRATION",
+            "severity": "HIGH",
+            "score": 75,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:04:25.942796",
+            "event_type": "HIGH_FRUSTRATION",
+            "severity": "HIGH",
+            "score": 71,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:04:15.142966",
+            "event_type": "HIGH_FRUSTRATION",
+            "severity": "HIGH",
+            "score": 71,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:04:05.787510",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 80,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:03:59.207296",
+            "event_type": "COGNITIVE_OVERLOAD",
+            "severity": "HIGH",
+            "score": 76,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:03:57.012985",
+            "event_type": "LOW_ATTENTION",
+            "severity": "MEDIUM",
+            "score": 49,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:03:57.012985",
+            "event_type": "HIGH_FRUSTRATION",
+            "severity": "HIGH",
+            "score": 72,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:03:46.299226",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 78,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:03:41.986652",
+            "event_type": "HIGH_FRUSTRATION",
+            "severity": "HIGH",
+            "score": 63,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T13:03:35.705356",
+            "event_type": "NEGATIVE_EMOTIONAL_STATE",
+            "severity": "MEDIUM",
+            "score": 44,
+            "details": {
+                "valence": "Negative",
+                "duration_sec": 31.1
+            }
+        }
+    ],
+    "session_summary": {
+        "yawn_count": 0,
+        "frustration_events": 7,
+        "attention_drops": 7,
+        "posture_violations": 0,
+        "fatigue_spikes": 1,
+        "cognitive_overload_events": 2,
+        "wellness_alerts": 0
+    },
+    "predictive": {
+        "predicted_stress_15m": 40,
+        "predicted_stress_30m": 33,
+        "burnout_risk": 30,
+        "risk_level": "LOW",
+        "confidence": 45,
+        "top_factors": [
+            "Typing Variance Increase"
+        ],
+        "model_status": "Baseline Heuristic"
+    },
+    "current_state": "ACTIVE"
+}
