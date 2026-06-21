@@ -1,75 +1,180 @@
 {
-    "timestamp": "2026-06-21T10:13:23.489835",
+    "timestamp": "2026-06-21T10:19:47.996926",
     "stress": {
-        "score": 45.05,
+        "score": 27.28,
         "level": "Mild Stress"
     },
     "contributors": {
-        "typing": 5.86,
-        "context_switching": 15,
-        "mouse_activity": 7.2,
-        "fatigue": 3.36,
-        "posture": 0.8,
-        "attention": 0.07,
-        "frustration": 7.0,
-        "stress_expression": 5.76
+        "typing": 0,
+        "context_switching": 8,
+        "mouse_activity": 4.8,
+        "fatigue": 2.64,
+        "posture": 0.88,
+        "attention": 1.4,
+        "frustration": 6.2,
+        "stress_expression": 3.36
     },
     "recommendation": {
-        "title": "Reduce Context Switching",
-        "reason": "Frequent application switching detected."
+        "title": "Reset Focus",
+        "reason": "Elevated frustration signals. Try taking a deep breath."
     },
     "alert": {
         "alert": true,
         "severity": "HIGH",
         "reason": "Elevated frustration signals detected."
     },
+    "cv_metrics": {
+        "posture_score": 89,
+        "blink_rate": 29,
+        "eye_fatigue_score": 20,
+        "yawn_count": 0,
+        "attention_score": 80,
+        "screen_distance_cm": 55.8,
+        "head_stability_score": 0,
+        "presence_percentage": 99.0,
+        "fatigue_index": 22,
+        "engagement_index": 71,
+        "engagement_score": 71,
+        "wellness_score": 73,
+        "head_tilt": -5.5,
+        "neck_angle": 0.0,
+        "slouch_detected": false,
+        "focused": true,
+        "face_present": true,
+        "distance_risk": 0,
+        "frustration_score": 62,
+        "stress_expression_score": 42,
+        "emotional_valence": "Negative",
+        "cognitive_overload_score": 24,
+        "mood_trend": "Declining",
+        "eye_focus": 100,
+        "mouth_aspect_ratio": 0.006
+    },
+    "recent_events": [
+        {
+            "timestamp": "2026-06-21T10:19:22.977827",
+            "event_type": "HIGH_FRUSTRATION",
+            "severity": "HIGH",
+            "score": 66,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T10:18:52.924469",
+            "event_type": "HIGH_FRUSTRATION",
+            "severity": "HIGH",
+            "score": 66,
+            "details": {}
+        }
+    ],
+    "session_summary": {
+        "yawn_count": 0,
+        "frustration_events": 2,
+        "attention_drops": 0,
+        "posture_violations": 0,
+        "fatigue_spikes": 0,
+        "cognitive_overload_events": 0,
+        "wellness_alerts": 0
+    },
     "metrics": {
         "keyboard": {
             "keys_per_min": 0,
             "backspaces_per_min": 0,
-            "avg_pause": 0.43,
-            "long_pause_count": 1,
-            "typing_variance": 2.01
+            "avg_pause": 0,
+            "long_pause_count": 0,
+            "typing_variance": 0
         },
         "mouse": {
-            "mouse_speed": 218.45,
-            "click_rate": 6,
-            "movement_distance": 13106.91
+            "mouse_speed": 203.53,
+            "click_rate": 4,
+            "movement_distance": 12212.06
         },
         "window": {
-            "active_window": "synapse-cognitive-engine - Antigravity IDE - README_wellness_cv.md",
-            "window_switches": 6
+            "active_window": "synapse-cognitive-engine - Antigravity IDE - cv_tracker.py",
+            "window_switches": 2
         },
         "session": {
-            "session_minutes": 1.92,
+            "session_minutes": 1.0,
             "break_count": 0,
-            "time_since_last_break": 1.92
+            "time_since_last_break": 1.0
         },
         "cv": {
-            "posture_score": 90,
+            "cv_metrics": {
+                "posture_score": 89,
+                "blink_rate": 29,
+                "eye_fatigue_score": 20,
+                "yawn_count": 0,
+                "attention_score": 80,
+                "screen_distance_cm": 55.8,
+                "head_stability_score": 0,
+                "presence_percentage": 99.0,
+                "fatigue_index": 22,
+                "engagement_index": 71,
+                "engagement_score": 71,
+                "wellness_score": 73,
+                "head_tilt": -5.5,
+                "neck_angle": 0.0,
+                "slouch_detected": false,
+                "focused": true,
+                "face_present": true,
+                "distance_risk": 0,
+                "frustration_score": 62,
+                "stress_expression_score": 42,
+                "emotional_valence": "Negative",
+                "cognitive_overload_score": 24,
+                "mood_trend": "Declining",
+                "eye_focus": 100,
+                "mouth_aspect_ratio": 0.006
+            },
+            "recent_events": [
+                {
+                    "timestamp": "2026-06-21T10:19:22.977827",
+                    "event_type": "HIGH_FRUSTRATION",
+                    "severity": "HIGH",
+                    "score": 66,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T10:18:52.924469",
+                    "event_type": "HIGH_FRUSTRATION",
+                    "severity": "HIGH",
+                    "score": 66,
+                    "details": {}
+                }
+            ],
+            "session_summary": {
+                "yawn_count": 0,
+                "frustration_events": 2,
+                "attention_drops": 0,
+                "posture_violations": 0,
+                "fatigue_spikes": 0,
+                "cognitive_overload_events": 0,
+                "wellness_alerts": 0
+            },
+            "posture_score": 89,
             "blink_rate": 29,
             "eye_fatigue_score": 20,
-            "yawn_count": 1,
-            "attention_score": 99,
-            "screen_distance_cm": 44.2,
+            "yawn_count": 0,
+            "attention_score": 80,
+            "screen_distance_cm": 55.8,
             "head_stability_score": 0,
-            "presence_percentage": 97.3,
-            "fatigue_index": 28,
-            "engagement_index": 79,
-            "engagement_score": 79,
-            "wellness_score": 77,
-            "head_tilt": -4.8,
+            "presence_percentage": 99.0,
+            "fatigue_index": 22,
+            "engagement_index": 71,
+            "engagement_score": 71,
+            "wellness_score": 73,
+            "head_tilt": -5.5,
             "neck_angle": 0.0,
             "slouch_detected": false,
             "focused": true,
             "face_present": true,
             "distance_risk": 0,
-            "frustration_score": 70,
-            "stress_expression_score": 72,
-            "emotional_valence": "Positive",
-            "cognitive_overload_score": 38,
+            "frustration_score": 62,
+            "stress_expression_score": 42,
+            "emotional_valence": "Negative",
+            "cognitive_overload_score": 24,
             "mood_trend": "Declining",
-            "eye_focus": 100
+            "eye_focus": 100,
+            "mouth_aspect_ratio": 0.006
         }
     }
 }

@@ -74,7 +74,8 @@ class CVTracker:
             "emotional_valence": "Neutral",
             "cognitive_overload_score": 0,
             "mood_trend": "Stable",
-            "eye_focus": 100
+            "eye_focus": 100,
+            "mouth_aspect_ratio": 0.0
         }
         
         self.lock = threading.Lock()
@@ -192,6 +193,7 @@ class CVTracker:
             mouth_w = np.linalg.norm(p_left - p_right)
             mouth_h = np.linalg.norm(p_top - p_bot)
             mar = mouth_h / mouth_w if mouth_w > 0 else 0
+            self.metrics["mouth_aspect_ratio"] = round(mar, 3)
             
             if mar > 0.6:
                 if not self.yawning:

@@ -5,6 +5,7 @@ from trackers.mouse_tracker import MouseTracker
 from trackers.window_tracker import WindowTracker
 from trackers.session_tracker import SessionTracker
 from trackers.cv_tracker import CVTracker
+from trackers.cv_event_engine import CVEventEngine
 
 
 class MetricsAggregator:
@@ -16,6 +17,7 @@ class MetricsAggregator:
         self.window = WindowTracker()
         self.session = SessionTracker()
         self.cv = CVTracker()
+        self.event_engine = CVEventEngine()
 
         self.keyboard.start()
         self.mouse.start()
@@ -55,11 +57,21 @@ class MetricsAggregator:
         mouse_metrics = self.mouse.get_metrics()
         window_metrics = self.window.get_metrics()
         session_metrics = self.session.get_metrics()
-        cv_metrics = self.cv.get_metrics(
+        cv_raw = self.cv.get_metrics(
             keyboard=keyboard_metrics,
             window=window_metrics,
             session=session_metrics
         )
+
+        recent_events = self.event_engine.get_recent_events(20)
+        session_summary = self.event_engine.get_session_summary()
+
+        cv_metrics = {
+            "cv_metrics": cv_raw,
+            "recent_events": recent_events,
+            "session_summary": session_summary,
+            **cv_raw
+        }
 
         return {
 

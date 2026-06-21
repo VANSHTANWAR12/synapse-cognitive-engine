@@ -69,7 +69,19 @@ DEFAULT_REPORT = {
             "emotional_valence": "Neutral",
             "cognitive_overload_score": 0,
             "mood_trend": "Stable",
-            "eye_focus": 100
+            "eye_focus": 100,
+            "mouth_aspect_ratio": 0.0,
+            "cv_metrics": {},
+            "recent_events": [],
+            "session_summary": {
+                "yawn_count": 0,
+                "frustration_events": 0,
+                "attention_drops": 0,
+                "posture_violations": 0,
+                "fatigue_spikes": 0,
+                "cognitive_overload_events": 0,
+                "wellness_alerts": 0
+            }
         }
     }
 }
@@ -88,6 +100,18 @@ def run_aggregator_loop():
         try:
             metrics = aggregator.get_metrics()
             stress = stress_engine.calculate(metrics)
+            
+            # Feed current metrics and calculated stress score to Event Engine
+            aggregator.event_engine.process(metrics, stress["stress"]["score"])
+            
+            # Pull the updated events and session summary from Event Engine
+            recent_events = aggregator.event_engine.get_recent_events(20)
+            session_summary = aggregator.event_engine.get_session_summary()
+            
+            # Re-wrap cv metrics with updated data
+            metrics["cv"]["recent_events"] = recent_events
+            metrics["cv"]["session_summary"] = session_summary
+            
             generator.save_report(metrics, stress)
         except Exception as e:
             print(f"Error in aggregator loop: {e}", flush=True)

@@ -1,0 +1,18 @@
+{
+    "events": [
+        {
+            "timestamp": "2026-06-21T10:19:22.977827",
+            "event_type": "HIGH_FRUSTRATION",
+            "severity": "HIGH",
+            "score": 66,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T10:18:52.924469",
+            "event_type": "HIGH_FRUSTRATION",
+            "severity": "HIGH",
+            "score": 66,
+            "details": {}
+        }
+    ]
+}

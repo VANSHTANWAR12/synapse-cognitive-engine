@@ -106,12 +106,32 @@ interface ManagerAlert {
   reason: string;
 }
 
+interface ManagerEvent {
+  timestamp: string;
+  event_type: string;
+  severity: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
+  score: number;
+  details: any;
+}
+
+interface SessionSummary {
+  yawn_count: number;
+  frustration_events: number;
+  attention_drops: number;
+  posture_violations: number;
+  fatigue_spikes: number;
+  cognitive_overload_events: number;
+  wellness_alerts: number;
+}
+
 interface StressReport {
   timestamp: string;
   stress: StressLevel;
   contributors: StressContributors;
   recommendation: Recommendation;
   alert: ManagerAlert;
+  recent_events: ManagerEvent[];
+  session_summary: SessionSummary;
   metrics: Metrics;
 }
 
@@ -278,6 +298,45 @@ export default function App() {
   };
 
   const levelConfig = getStressLevelConfig(report.stress.level);
+
+  const getEventEmojiAndLabel = (type: string) => {
+    switch (type) {
+      case "YAWN_DETECTED": return { emoji: "😴", label: "Yawn Detected" };
+      case "HIGH_FRUSTRATION": return { emoji: "😠", label: "High Frustration" };
+      case "LOW_ATTENTION": return { emoji: "👀", label: "Attention Drop" };
+      case "ATTENTION_RECOVERED": return { emoji: "👁", label: "Attention Recovered" };
+      case "POOR_POSTURE": return { emoji: "🧍", label: "Poor Posture" };
+      case "POSTURE_RECOVERED": return { emoji: "💪", label: "Posture Recovered" };
+      case "FATIGUE_SPIKE": return { emoji: "⚡", label: "Fatigue Spike" };
+      case "COGNITIVE_OVERLOAD": return { emoji: "🧠", label: "Cognitive Overload" };
+      case "FACE_NOT_PRESENT": return { emoji: "🚫", label: "Face Not Present" };
+      case "WELLNESS_ALERT": return { emoji: "⚠", label: "Wellness Alert" };
+      case "ENGAGEMENT_DROP": return { emoji: "📉", label: "Engagement Drop" };
+      case "NEGATIVE_EMOTIONAL_STATE": return { emoji: "🌧", label: "Negative Emotional State" };
+      default: return { emoji: "📝", label: type };
+    }
+  };
+
+  const formatEventTime = (isoString: string) => {
+    try {
+      const d = new Date(isoString);
+      const hh = String(d.getHours()).padStart(2, '0');
+      const mm = String(d.getMinutes()).padStart(2, '0');
+      return `${hh}:${mm}`;
+    } catch {
+      return "00:00";
+    }
+  };
+
+  const eventCounts: { [key: string]: number } = {};
+  (report.recent_events || []).forEach(evt => {
+    const { label } = getEventEmojiAndLabel(evt.event_type);
+    eventCounts[label] = (eventCounts[label] || 0) + 1;
+  });
+  const eventFrequencyData = Object.keys(eventCounts).map(name => ({
+    name,
+    count: eventCounts[name]
+  })).sort((a, b) => b.count - a.count);
   
   // Contributors format for Recharts
   const contributorsData = [
@@ -683,6 +742,34 @@ export default function App() {
             <h2 className="text-sm font-semibold tracking-wider text-slate-400 uppercase">Workplace Wellness Analytics</h2>
           </div>
           
+          {/* Session Summary Counts */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
+            <div className="rounded-xl border border-slate-900 bg-slate-900/50 p-4">
+              <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Total Yawns</span>
+              <p className="text-2xl font-bold mt-1 text-amber-400">{report.session_summary?.yawn_count || 0}</p>
+            </div>
+            <div className="rounded-xl border border-slate-900 bg-slate-900/50 p-4">
+              <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Frustration Events</span>
+              <p className="text-2xl font-bold mt-1 text-orange-400">{report.session_summary?.frustration_events || 0}</p>
+            </div>
+            <div className="rounded-xl border border-slate-900 bg-slate-900/50 p-4">
+              <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Attention Drops</span>
+              <p className="text-2xl font-bold mt-1 text-indigo-400">{report.session_summary?.attention_drops || 0}</p>
+            </div>
+            <div className="rounded-xl border border-slate-900 bg-slate-900/50 p-4">
+              <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Posture Violations</span>
+              <p className="text-2xl font-bold mt-1 text-emerald-400">{report.session_summary?.posture_violations || 0}</p>
+            </div>
+            <div className="rounded-xl border border-slate-900 bg-slate-900/50 p-4">
+              <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Fatigue Spikes</span>
+              <p className="text-2xl font-bold mt-1 text-rose-400">{report.session_summary?.fatigue_spikes || 0}</p>
+            </div>
+            <div className="rounded-xl border border-slate-900 bg-slate-900/50 p-4">
+              <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Wellness Alerts</span>
+              <p className="text-2xl font-bold mt-1 text-red-500 font-mono tracking-tight">{report.session_summary?.wellness_alerts || 0}</p>
+            </div>
+          </div>
+
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
             {renderMiniGauge("Stress Level", report.stress.score, true, <HeartPulse className="h-4 w-4 text-rose-400" />)}
             {renderMiniGauge("Frustration", report.metrics.cv?.frustration_score || 0, true, <AlertTriangle className="h-4 w-4 text-orange-400" />)}
@@ -692,13 +779,53 @@ export default function App() {
             {renderMiniGauge("Wellness", report.metrics.cv?.wellness_score || 0, false, <CheckCircle2 className="h-4 w-4 text-emerald-400" />)}
           </div>
 
+          {/* Behavioral Timeline Widget */}
+          <div className="rounded-xl border border-slate-900 bg-slate-900/30 p-6 mb-8">
+            <h3 className="text-sm font-semibold tracking-wider text-slate-400 uppercase mb-4">Behavioral Timeline</h3>
+            <div className="max-h-[300px] overflow-y-auto pr-2 space-y-3 scrollbar-thin scrollbar-thumb-slate-800">
+              {(!report.recent_events || report.recent_events.length === 0) ? (
+                <p className="text-xs text-slate-500 text-center py-6">No events logged yet for this session.</p>
+              ) : (
+                report.recent_events.map((evt, idx) => {
+                  const info = getEventEmojiAndLabel(evt.event_type);
+                  const timeStr = formatEventTime(evt.timestamp);
+                  const sevColor = evt.severity === "CRITICAL" ? "bg-rose-500/10 text-rose-400 border-rose-500/20" :
+                                   evt.severity === "HIGH" ? "bg-orange-500/10 text-orange-400 border-orange-500/20" :
+                                   evt.severity === "MEDIUM" ? "bg-amber-500/10 text-amber-400 border-amber-500/20" :
+                                   "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+                  return (
+                    <div key={`${evt.timestamp}-${idx}`} className="flex items-center justify-between p-3 rounded-lg bg-slate-950 border border-slate-900 hover:border-slate-800 transition">
+                      <div className="flex items-center gap-3">
+                        <span className="text-lg shrink-0">{info.emoji}</span>
+                        <div>
+                          <span className="text-sm font-semibold text-slate-200">{info.label}</span>
+                          {evt.details && Object.keys(evt.details).length > 0 && (
+                            <span className="text-[10px] text-slate-500 ml-2 font-mono">
+                              ({Object.entries(evt.details).map(([k, v]) => `${k}: ${v}`).join(", ")})
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded border uppercase tracking-wider ${sevColor}`}>
+                          {evt.severity}
+                        </span>
+                        <span className="text-xs font-mono text-slate-500">{timeStr}</span>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+
           <div className="flex items-center gap-2 mb-4">
             <TrendingUp className="h-5 w-5 text-indigo-400" />
             <h2 className="text-sm font-semibold tracking-wider text-slate-400 uppercase">Wellness Trends</h2>
           </div>
 
           {/* Wellness Trend Charts */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Stress Trend */}
             <div className="rounded-xl border border-slate-900 bg-slate-900/30 p-5">
               <h3 className="text-xs font-semibold tracking-wider text-slate-400 uppercase mb-4">Stress Trend</h3>
@@ -762,6 +889,27 @@ export default function App() {
               </div>
             </div>
 
+            {/* Attention Trend */}
+            <div className="rounded-xl border border-slate-900 bg-slate-900/30 p-5">
+              <h3 className="text-xs font-semibold tracking-wider text-slate-400 uppercase mb-4">Attention Trend</h3>
+              <div className="h-[200px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={trendData} margin={{ top: 5, right: 0, left: -20, bottom: 0 }}>
+                    <defs>
+                      <linearGradient id="colorAttention" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#818cf8" stopOpacity={0.4} />
+                        <stop offset="95%" stopColor="#818cf8" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fill: "#64748b", fontSize: 10 }} />
+                    <YAxis domain={[0, 100]} axisLine={false} tickLine={false} tick={{ fill: "#64748b", fontSize: 10 }} />
+                    <Tooltip contentStyle={{ backgroundColor: "#020617", borderColor: "#1e293b", borderRadius: "8px" }} />
+                    <Area type="monotone" dataKey="attentionScore" stroke="#818cf8" fillOpacity={1} fill="url(#colorAttention)" name="Attention" />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
             {/* Wellness Trend */}
             <div className="rounded-xl border border-slate-900 bg-slate-900/30 p-5">
               <h3 className="text-xs font-semibold tracking-wider text-slate-400 uppercase mb-4">Wellness Trend</h3>
@@ -780,6 +928,43 @@ export default function App() {
                     <Area type="monotone" dataKey="wellnessScore" stroke="#10b981" fillOpacity={1} fill="url(#colorWellness)" name="Wellness" />
                   </AreaChart>
                 </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Event Frequency Chart */}
+            <div className="rounded-xl border border-slate-900 bg-slate-900/30 p-5">
+              <h3 className="text-xs font-semibold tracking-wider text-slate-400 uppercase mb-4">Event Frequency</h3>
+              <div className="h-[200px]">
+                {eventFrequencyData.length === 0 ? (
+                  <div className="flex h-full items-center justify-center text-xs text-slate-500">
+                    No events in this session to graph
+                  </div>
+                ) : (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={eventFrequencyData} layout="vertical" margin={{ left: -10, right: 10, top: 5, bottom: 5 }}>
+                      <XAxis type="number" hide />
+                      <YAxis
+                        dataKey="name"
+                        type="category"
+                        axisLine={false}
+                        tickLine={false}
+                        tick={{ fill: "#94a3b8", fontSize: 9 }}
+                        width={90}
+                      />
+                      <Tooltip
+                        cursor={{ fill: "rgba(30, 41, 59, 0.4)" }}
+                        contentStyle={{
+                          backgroundColor: "#020617",
+                          borderColor: "#1e293b",
+                          borderRadius: "8px",
+                          color: "#fff",
+                          fontSize: "11px"
+                        }}
+                      />
+                      <Bar dataKey="count" fill="#38bdf8" radius={[0, 4, 4, 0]} barSize={10} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                )}
               </div>
             </div>
           </div>

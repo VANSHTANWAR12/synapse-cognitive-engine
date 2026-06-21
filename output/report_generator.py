@@ -92,6 +92,15 @@ class ReportGenerator:
             "alert":
                 alert_data,
 
+            "cv_metrics":
+                metrics.get("cv", {}).get("cv_metrics", {}),
+
+            "recent_events":
+                metrics.get("cv", {}).get("recent_events", []),
+
+            "session_summary":
+                metrics.get("cv", {}).get("session_summary", {}),
+
             "metrics":
                 metrics
         }
