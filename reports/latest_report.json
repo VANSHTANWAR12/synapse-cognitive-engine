@@ -1,180 +1,482 @@
 {
-    "timestamp": "2026-06-21T10:19:47.996926",
+    "timestamp": "2026-06-21T11:46:04.871349",
     "stress": {
-        "score": 27.28,
+        "score": 44.06,
         "level": "Mild Stress"
     },
     "contributors": {
-        "typing": 0,
-        "context_switching": 8,
-        "mouse_activity": 4.8,
-        "fatigue": 2.64,
-        "posture": 0.88,
-        "attention": 1.4,
-        "frustration": 6.2,
-        "stress_expression": 3.36
+        "typing": 16.66,
+        "context_switching": 15,
+        "mouse_activity": 10,
+        "fatigue": 2.4,
+        "posture": 0.0,
+        "attention": 0.0,
+        "frustration": 0.0,
+        "stress_expression": 0.0
     },
     "recommendation": {
-        "title": "Reset Focus",
-        "reason": "Elevated frustration signals. Try taking a deep breath."
+        "title": "Reduce Context Switching",
+        "reason": "Frequent application switching detected."
     },
     "alert": {
         "alert": true,
-        "severity": "HIGH",
-        "reason": "Elevated frustration signals detected."
+        "severity": "MODERATE",
+        "reason": "Wellness metrics are within normal range."
     },
     "cv_metrics": {
-        "posture_score": 89,
-        "blink_rate": 29,
-        "eye_fatigue_score": 20,
+        "posture_score": 100,
+        "blink_rate": 0,
+        "eye_fatigue_score": 80,
         "yawn_count": 0,
-        "attention_score": 80,
-        "screen_distance_cm": 55.8,
-        "head_stability_score": 0,
-        "presence_percentage": 99.0,
-        "fatigue_index": 22,
-        "engagement_index": 71,
-        "engagement_score": 71,
-        "wellness_score": 73,
-        "head_tilt": -5.5,
+        "attention_score": 100,
+        "screen_distance_cm": 60.0,
+        "head_stability_score": 100,
+        "presence_percentage": 0.0,
+        "fatigue_index": 20,
+        "engagement_index": 80,
+        "engagement_score": 80,
+        "wellness_score": 92,
+        "head_tilt": 0.0,
         "neck_angle": 0.0,
         "slouch_detected": false,
         "focused": true,
-        "face_present": true,
+        "face_present": false,
         "distance_risk": 0,
-        "frustration_score": 62,
-        "stress_expression_score": 42,
-        "emotional_valence": "Negative",
-        "cognitive_overload_score": 24,
-        "mood_trend": "Declining",
+        "frustration_score": 0,
+        "stress_expression_score": 0,
+        "emotional_valence": "Neutral",
+        "cognitive_overload_score": 38,
+        "mood_trend": "Stable",
         "eye_focus": 100,
-        "mouth_aspect_ratio": 0.006
+        "mouth_aspect_ratio": 0.0
     },
     "recent_events": [
         {
-            "timestamp": "2026-06-21T10:19:22.977827",
+            "timestamp": "2026-06-21T11:44:14.781009",
+            "event_type": "FACE_NOT_PRESENT",
+            "severity": "MEDIUM",
+            "score": 0,
+            "details": {
+                "absent_duration_sec": 10.0
+            }
+        },
+        {
+            "timestamp": "2026-06-21T11:36:58.165252",
+            "event_type": "FACE_NOT_PRESENT",
+            "severity": "MEDIUM",
+            "score": 0,
+            "details": {
+                "absent_duration_sec": 10.0
+            }
+        },
+        {
+            "timestamp": "2026-06-21T11:25:48.194761",
+            "event_type": "FACE_NOT_PRESENT",
+            "severity": "MEDIUM",
+            "score": 0,
+            "details": {
+                "absent_duration_sec": 10.0
+            }
+        },
+        {
+            "timestamp": "2026-06-21T11:23:13.842492",
+            "event_type": "FACE_NOT_PRESENT",
+            "severity": "MEDIUM",
+            "score": 0,
+            "details": {
+                "absent_duration_sec": 10.0
+            }
+        },
+        {
+            "timestamp": "2026-06-21T11:22:37.129492",
+            "event_type": "FATIGUE_SPIKE",
+            "severity": "MEDIUM",
+            "score": 52,
+            "details": {
+                "increase_points": 18
+            }
+        },
+        {
+            "timestamp": "2026-06-21T11:22:32.102746",
+            "event_type": "NEGATIVE_EMOTIONAL_STATE",
+            "severity": "MEDIUM",
+            "score": 72,
+            "details": {
+                "valence": "Negative",
+                "duration_sec": 30.1
+            }
+        },
+        {
+            "timestamp": "2026-06-21T11:22:32.102746",
             "event_type": "HIGH_FRUSTRATION",
             "severity": "HIGH",
-            "score": 66,
+            "score": 72,
             "details": {}
         },
         {
-            "timestamp": "2026-06-21T10:18:52.924469",
+            "timestamp": "2026-06-21T11:22:27.083578",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 91,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T11:22:17.054459",
+            "event_type": "LOW_ATTENTION",
+            "severity": "MEDIUM",
+            "score": 0,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T11:21:36.983395",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 85,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T11:21:31.965978",
             "event_type": "HIGH_FRUSTRATION",
             "severity": "HIGH",
-            "score": 66,
+            "score": 63,
             "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T11:21:26.945399",
+            "event_type": "ENGAGEMENT_DROP",
+            "severity": "HIGH",
+            "score": 24,
+            "details": {
+                "decrease_points": 51
+            }
+        },
+        {
+            "timestamp": "2026-06-21T11:21:26.945399",
+            "event_type": "LOW_ATTENTION",
+            "severity": "MEDIUM",
+            "score": 11,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T11:21:21.917079",
+            "event_type": "NEGATIVE_EMOTIONAL_STATE",
+            "severity": "MEDIUM",
+            "score": 73,
+            "details": {
+                "valence": "Negative",
+                "duration_sec": 30.1
+            }
+        },
+        {
+            "timestamp": "2026-06-21T11:21:11.886966",
+            "event_type": "FACE_NOT_PRESENT",
+            "severity": "MEDIUM",
+            "score": 0,
+            "details": {
+                "absent_duration_sec": 10.0
+            }
+        },
+        {
+            "timestamp": "2026-06-21T11:19:51.696385",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 95,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T11:19:46.615132",
+            "event_type": "LOW_ATTENTION",
+            "severity": "MEDIUM",
+            "score": 47,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T11:18:21.089671",
+            "event_type": "NEGATIVE_EMOTIONAL_STATE",
+            "severity": "MEDIUM",
+            "score": 65,
+            "details": {
+                "valence": "Negative",
+                "duration_sec": 30.1
+            }
+        },
+        {
+            "timestamp": "2026-06-21T11:18:06.040166",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 79,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T11:17:45.985572",
+            "event_type": "ENGAGEMENT_DROP",
+            "severity": "HIGH",
+            "score": 54,
+            "details": {
+                "decrease_points": 22
+            }
         }
     ],
     "session_summary": {
         "yawn_count": 0,
-        "frustration_events": 2,
-        "attention_drops": 0,
+        "frustration_events": 28,
+        "attention_drops": 31,
         "posture_violations": 0,
-        "fatigue_spikes": 0,
-        "cognitive_overload_events": 0,
+        "fatigue_spikes": 6,
+        "cognitive_overload_events": 1,
         "wellness_alerts": 0
     },
     "metrics": {
         "keyboard": {
-            "keys_per_min": 0,
-            "backspaces_per_min": 0,
-            "avg_pause": 0,
-            "long_pause_count": 0,
-            "typing_variance": 0
+            "keys_per_min": 76,
+            "backspaces_per_min": 9,
+            "avg_pause": 0.83,
+            "long_pause_count": 4,
+            "typing_variance": 3.53
         },
         "mouse": {
-            "mouse_speed": 203.53,
-            "click_rate": 4,
-            "movement_distance": 12212.06
+            "mouse_speed": 257.79,
+            "click_rate": 11,
+            "movement_distance": 15467.56
         },
         "window": {
-            "active_window": "synapse-cognitive-engine - Antigravity IDE - cv_tracker.py",
-            "window_switches": 2
+            "active_window": "synapse-cognitive-engine - Antigravity IDE - requirements.txt",
+            "window_switches": 4
         },
         "session": {
-            "session_minutes": 1.0,
+            "session_minutes": 2.0,
             "break_count": 0,
-            "time_since_last_break": 1.0
+            "time_since_last_break": 2.0
         },
         "cv": {
             "cv_metrics": {
-                "posture_score": 89,
-                "blink_rate": 29,
-                "eye_fatigue_score": 20,
+                "posture_score": 100,
+                "blink_rate": 0,
+                "eye_fatigue_score": 80,
                 "yawn_count": 0,
-                "attention_score": 80,
-                "screen_distance_cm": 55.8,
-                "head_stability_score": 0,
-                "presence_percentage": 99.0,
-                "fatigue_index": 22,
-                "engagement_index": 71,
-                "engagement_score": 71,
-                "wellness_score": 73,
-                "head_tilt": -5.5,
+                "attention_score": 100,
+                "screen_distance_cm": 60.0,
+                "head_stability_score": 100,
+                "presence_percentage": 0.0,
+                "fatigue_index": 20,
+                "engagement_index": 80,
+                "engagement_score": 80,
+                "wellness_score": 92,
+                "head_tilt": 0.0,
                 "neck_angle": 0.0,
                 "slouch_detected": false,
                 "focused": true,
-                "face_present": true,
+                "face_present": false,
                 "distance_risk": 0,
-                "frustration_score": 62,
-                "stress_expression_score": 42,
-                "emotional_valence": "Negative",
-                "cognitive_overload_score": 24,
-                "mood_trend": "Declining",
+                "frustration_score": 0,
+                "stress_expression_score": 0,
+                "emotional_valence": "Neutral",
+                "cognitive_overload_score": 38,
+                "mood_trend": "Stable",
                 "eye_focus": 100,
-                "mouth_aspect_ratio": 0.006
+                "mouth_aspect_ratio": 0.0
             },
             "recent_events": [
                 {
-                    "timestamp": "2026-06-21T10:19:22.977827",
+                    "timestamp": "2026-06-21T11:44:14.781009",
+                    "event_type": "FACE_NOT_PRESENT",
+                    "severity": "MEDIUM",
+                    "score": 0,
+                    "details": {
+                        "absent_duration_sec": 10.0
+                    }
+                },
+                {
+                    "timestamp": "2026-06-21T11:36:58.165252",
+                    "event_type": "FACE_NOT_PRESENT",
+                    "severity": "MEDIUM",
+                    "score": 0,
+                    "details": {
+                        "absent_duration_sec": 10.0
+                    }
+                },
+                {
+                    "timestamp": "2026-06-21T11:25:48.194761",
+                    "event_type": "FACE_NOT_PRESENT",
+                    "severity": "MEDIUM",
+                    "score": 0,
+                    "details": {
+                        "absent_duration_sec": 10.0
+                    }
+                },
+                {
+                    "timestamp": "2026-06-21T11:23:13.842492",
+                    "event_type": "FACE_NOT_PRESENT",
+                    "severity": "MEDIUM",
+                    "score": 0,
+                    "details": {
+                        "absent_duration_sec": 10.0
+                    }
+                },
+                {
+                    "timestamp": "2026-06-21T11:22:37.129492",
+                    "event_type": "FATIGUE_SPIKE",
+                    "severity": "MEDIUM",
+                    "score": 52,
+                    "details": {
+                        "increase_points": 18
+                    }
+                },
+                {
+                    "timestamp": "2026-06-21T11:22:32.102746",
+                    "event_type": "NEGATIVE_EMOTIONAL_STATE",
+                    "severity": "MEDIUM",
+                    "score": 72,
+                    "details": {
+                        "valence": "Negative",
+                        "duration_sec": 30.1
+                    }
+                },
+                {
+                    "timestamp": "2026-06-21T11:22:32.102746",
                     "event_type": "HIGH_FRUSTRATION",
                     "severity": "HIGH",
-                    "score": 66,
+                    "score": 72,
                     "details": {}
                 },
                 {
-                    "timestamp": "2026-06-21T10:18:52.924469",
+                    "timestamp": "2026-06-21T11:22:27.083578",
+                    "event_type": "ATTENTION_RECOVERED",
+                    "severity": "LOW",
+                    "score": 91,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T11:22:17.054459",
+                    "event_type": "LOW_ATTENTION",
+                    "severity": "MEDIUM",
+                    "score": 0,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T11:21:36.983395",
+                    "event_type": "ATTENTION_RECOVERED",
+                    "severity": "LOW",
+                    "score": 85,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T11:21:31.965978",
                     "event_type": "HIGH_FRUSTRATION",
                     "severity": "HIGH",
-                    "score": 66,
+                    "score": 63,
                     "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T11:21:26.945399",
+                    "event_type": "ENGAGEMENT_DROP",
+                    "severity": "HIGH",
+                    "score": 24,
+                    "details": {
+                        "decrease_points": 51
+                    }
+                },
+                {
+                    "timestamp": "2026-06-21T11:21:26.945399",
+                    "event_type": "LOW_ATTENTION",
+                    "severity": "MEDIUM",
+                    "score": 11,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T11:21:21.917079",
+                    "event_type": "NEGATIVE_EMOTIONAL_STATE",
+                    "severity": "MEDIUM",
+                    "score": 73,
+                    "details": {
+                        "valence": "Negative",
+                        "duration_sec": 30.1
+                    }
+                },
+                {
+                    "timestamp": "2026-06-21T11:21:11.886966",
+                    "event_type": "FACE_NOT_PRESENT",
+                    "severity": "MEDIUM",
+                    "score": 0,
+                    "details": {
+                        "absent_duration_sec": 10.0
+                    }
+                },
+                {
+                    "timestamp": "2026-06-21T11:19:51.696385",
+                    "event_type": "ATTENTION_RECOVERED",
+                    "severity": "LOW",
+                    "score": 95,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T11:19:46.615132",
+                    "event_type": "LOW_ATTENTION",
+                    "severity": "MEDIUM",
+                    "score": 47,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T11:18:21.089671",
+                    "event_type": "NEGATIVE_EMOTIONAL_STATE",
+                    "severity": "MEDIUM",
+                    "score": 65,
+                    "details": {
+                        "valence": "Negative",
+                        "duration_sec": 30.1
+                    }
+                },
+                {
+                    "timestamp": "2026-06-21T11:18:06.040166",
+                    "event_type": "ATTENTION_RECOVERED",
+                    "severity": "LOW",
+                    "score": 79,
+                    "details": {}
+                },
+                {
+                    "timestamp": "2026-06-21T11:17:45.985572",
+                    "event_type": "ENGAGEMENT_DROP",
+                    "severity": "HIGH",
+                    "score": 54,
+                    "details": {
+                        "decrease_points": 22
+                    }
                 }
             ],
             "session_summary": {
                 "yawn_count": 0,
-                "frustration_events": 2,
-                "attention_drops": 0,
+                "frustration_events": 28,
+                "attention_drops": 31,
                 "posture_violations": 0,
-                "fatigue_spikes": 0,
-                "cognitive_overload_events": 0,
+                "fatigue_spikes": 6,
+                "cognitive_overload_events": 1,
                 "wellness_alerts": 0
             },
-            "posture_score": 89,
-            "blink_rate": 29,
-            "eye_fatigue_score": 20,
+            "posture_score": 100,
+            "blink_rate": 0,
+            "eye_fatigue_score": 80,
             "yawn_count": 0,
-            "attention_score": 80,
-            "screen_distance_cm": 55.8,
-            "head_stability_score": 0,
-            "presence_percentage": 99.0,
-            "fatigue_index": 22,
-            "engagement_index": 71,
-            "engagement_score": 71,
-            "wellness_score": 73,
-            "head_tilt": -5.5,
+            "attention_score": 100,
+            "screen_distance_cm": 60.0,
+            "head_stability_score": 100,
+            "presence_percentage": 0.0,
+            "fatigue_index": 20,
+            "engagement_index": 80,
+            "engagement_score": 80,
+            "wellness_score": 92,
+            "head_tilt": 0.0,
             "neck_angle": 0.0,
             "slouch_detected": false,
             "focused": true,
-            "face_present": true,
+            "face_present": false,
             "distance_risk": 0,
-            "frustration_score": 62,
-            "stress_expression_score": 42,
-            "emotional_valence": "Negative",
-            "cognitive_overload_score": 24,
-            "mood_trend": "Declining",
+            "frustration_score": 0,
+            "stress_expression_score": 0,
+            "emotional_valence": "Neutral",
+            "cognitive_overload_score": 38,
+            "mood_trend": "Stable",
             "eye_focus": 100,
-            "mouth_aspect_ratio": 0.006
+            "mouth_aspect_ratio": 0.0
         }
     }
 }

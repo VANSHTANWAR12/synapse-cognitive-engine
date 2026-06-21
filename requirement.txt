@@ -1,7 +1,11 @@
 fastapi
 uvicorn
+websockets
 pynput
 pygetwindow
 opencv-python
 mediapipe
 numpy
+scipy
+openai
+python-dotenv

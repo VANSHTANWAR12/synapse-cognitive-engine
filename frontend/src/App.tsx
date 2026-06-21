@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import Home from "./Home";
+import Chatbot from "./Chatbot";
+import Resonance from "./components/Resonance";
 import {
   Keyboard,
   MousePointer,
@@ -148,7 +151,7 @@ interface TrendPoint {
 
 const BACKEND_URL = "http://127.0.0.1:8000";
 
-export default function App() {
+function Dashboard() {
   const [report, setReport] = useState<StressReport | null>(null);
   const [trendData, setTrendData] = useState<TrendPoint[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -264,18 +267,26 @@ export default function App() {
     const circ = 2 * Math.PI * radius;
     const offset = circ - (value / 100) * circ;
     
+    // Determine glow color class based on the text color from config
+    const glowClass = config.includes("emerald") ? "drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]" :
+                      config.includes("amber") ? "drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]" :
+                      config.includes("orange") ? "drop-shadow-[0_0_8px_rgba(249,115,22,0.5)]" :
+                      "drop-shadow-[0_0_8px_rgba(244,63,94,0.5)]";
+
+    const isCritical = invert ? value >= 60 : value <= 45;
+    
     return (
-      <div className="rounded-xl border border-slate-900 bg-slate-900/20 p-4 flex flex-col items-center justify-between">
-        <div className="flex items-center gap-1.5 self-start mb-2">
-          {icon}
-          <span className="text-xs font-bold text-slate-400 tracking-wide uppercase">{title}</span>
+      <div className="glass-card p-5 flex flex-col items-center justify-between group">
+        <div className="flex items-center gap-1.5 self-start mb-2 opacity-80 group-hover:opacity-100 transition-opacity">
+          <div className={isCritical ? "animate-pulse-fast" : ""}>{icon}</div>
+          <span className="text-[11px] font-bold text-slate-300 tracking-wider uppercase">LIVE {title}</span>
         </div>
         <div className="relative flex items-center justify-center my-2">
-          <svg className="h-20 w-20 transform -rotate-90">
-            <circle cx="40" cy="40" r={radius} stroke="#1e293b" strokeWidth="6" fill="transparent" />
+          <svg className="h-24 w-24 transform -rotate-90">
+            <circle cx="48" cy="48" r={radius} stroke="#1e293b" strokeWidth="6" fill="transparent" />
             <circle 
-              cx="40" 
-              cy="40" 
+              cx="48" 
+              cy="48" 
               r={radius} 
               stroke="currentColor" 
               strokeWidth="6" 
@@ -283,14 +294,14 @@ export default function App() {
               strokeDasharray={circ}
               strokeDashoffset={offset}
               strokeLinecap="round"
-              className={`transition-all duration-1000 ease-out ${config.split(' ')[1]}`}
+              className={`transition-all duration-1000 ease-out ${config.split(' ')[1]} ${glowClass}`}
             />
           </svg>
-          <div className="absolute text-center">
-            <span className="text-lg font-bold text-white tracking-tight">{value}%</span>
+          <div className="absolute text-center flex flex-col items-center">
+            <span className={`text-2xl font-bold tracking-tight ${config.split(' ')[0]}`}>{value}%</span>
           </div>
         </div>
-        <span className={`text-[10px] font-semibold mt-1 px-2 py-0.5 rounded ${config.split(' ')[2]} ${config.split(' ')[0]} border ${config.split(' ')[3]}`}>
+        <span className={`text-[10px] font-semibold mt-3 px-3 py-1 rounded-full ${config.split(' ')[2]} ${config.split(' ')[0]} border ${config.split(' ')[3]}`}>
           {invert ? (value < 30 ? "Optimal" : value < 60 ? "Moderate" : "Elevated") : (value > 75 ? "Excellent" : value > 45 ? "Fair" : "Poor")}
         </span>
       </div>
@@ -359,6 +370,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-indigo-500/30 selection:text-indigo-200">
+      <Resonance />
       {/* Top Banner / Navbar */}
       <header className="border-b border-slate-900 bg-slate-950/80 backdrop-blur-md sticky top-0 z-50">
         <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
@@ -743,78 +755,105 @@ export default function App() {
           </div>
           
           {/* Session Summary Counts */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
-            <div className="rounded-xl border border-slate-900 bg-slate-900/50 p-4">
-              <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Total Yawns</span>
-              <p className="text-2xl font-bold mt-1 text-amber-400">{report.session_summary?.yawn_count || 0}</p>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-8">
+            <div className="glass-card p-5 flex flex-col justify-between group">
+              <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Session Yawns</span>
+              <p className="text-4xl font-bold mt-3 text-amber-400 text-glow-amber group-hover:scale-105 transition-transform transform origin-left">{report.session_summary?.yawn_count || 0}</p>
             </div>
-            <div className="rounded-xl border border-slate-900 bg-slate-900/50 p-4">
-              <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Frustration Events</span>
-              <p className="text-2xl font-bold mt-1 text-orange-400">{report.session_summary?.frustration_events || 0}</p>
+            <div className="glass-card p-5 flex flex-col justify-between group">
+              <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Total Frustrations</span>
+              <p className="text-4xl font-bold mt-3 text-orange-400 text-glow-orange group-hover:scale-105 transition-transform transform origin-left">{report.session_summary?.frustration_events || 0}</p>
             </div>
-            <div className="rounded-xl border border-slate-900 bg-slate-900/50 p-4">
-              <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Attention Drops</span>
-              <p className="text-2xl font-bold mt-1 text-indigo-400">{report.session_summary?.attention_drops || 0}</p>
+            <div className="glass-card p-5 flex flex-col justify-between group">
+              <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Attention Drops</span>
+              <p className="text-4xl font-bold mt-3 text-indigo-400 text-glow-indigo group-hover:scale-105 transition-transform transform origin-left">{report.session_summary?.attention_drops || 0}</p>
             </div>
-            <div className="rounded-xl border border-slate-900 bg-slate-900/50 p-4">
-              <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Posture Violations</span>
-              <p className="text-2xl font-bold mt-1 text-emerald-400">{report.session_summary?.posture_violations || 0}</p>
+            <div className="glass-card p-5 flex flex-col justify-between group">
+              <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Posture Issues</span>
+              <p className="text-4xl font-bold mt-3 text-emerald-400 text-glow-emerald group-hover:scale-105 transition-transform transform origin-left">{report.session_summary?.posture_violations || 0}</p>
             </div>
-            <div className="rounded-xl border border-slate-900 bg-slate-900/50 p-4">
-              <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Fatigue Spikes</span>
-              <p className="text-2xl font-bold mt-1 text-rose-400">{report.session_summary?.fatigue_spikes || 0}</p>
+            <div className="glass-card p-5 flex flex-col justify-between group">
+              <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Fatigue Spikes</span>
+              <p className="text-4xl font-bold mt-3 text-rose-400 text-glow-rose group-hover:scale-105 transition-transform transform origin-left">{report.session_summary?.fatigue_spikes || 0}</p>
             </div>
-            <div className="rounded-xl border border-slate-900 bg-slate-900/50 p-4">
-              <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Wellness Alerts</span>
-              <p className="text-2xl font-bold mt-1 text-red-500 font-mono tracking-tight">{report.session_summary?.wellness_alerts || 0}</p>
+            <div className="glass-card border-red-500/30 p-5 flex flex-col justify-between group">
+              <span className="text-[10px] uppercase font-bold text-red-400 tracking-wider">Wellness Alerts</span>
+              <p className="text-4xl font-bold mt-3 text-red-500 font-mono tracking-tight text-glow-red animate-pulse">{report.session_summary?.wellness_alerts || 0}</p>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
-            {renderMiniGauge("Stress Level", report.stress.score, true, <HeartPulse className="h-4 w-4 text-rose-400" />)}
-            {renderMiniGauge("Frustration", report.metrics.cv?.frustration_score || 0, true, <AlertTriangle className="h-4 w-4 text-orange-400" />)}
-            {renderMiniGauge("Cognitive Overload", report.metrics.cv?.cognitive_overload_score || 0, true, <Brain className="h-4 w-4 text-purple-400" />)}
-            {renderMiniGauge("Fatigue Index", report.metrics.cv?.fatigue_index || 0, true, <Clock className="h-4 w-4 text-amber-400" />)}
-            {renderMiniGauge("Engagement", report.metrics.cv?.engagement_score || 0, false, <Activity className="h-4 w-4 text-indigo-400" />)}
-            {renderMiniGauge("Wellness", report.metrics.cv?.wellness_score || 0, false, <CheckCircle2 className="h-4 w-4 text-emerald-400" />)}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-12">
+            {renderMiniGauge("Stress", report.stress.score, true, <HeartPulse className="h-5 w-5 text-rose-400" />)}
+            {renderMiniGauge("Frustration", report.metrics.cv?.frustration_score || 0, true, <AlertTriangle className="h-5 w-5 text-orange-400" />)}
+            {renderMiniGauge("Overload", report.metrics.cv?.cognitive_overload_score || 0, true, <Brain className="h-5 w-5 text-purple-400" />)}
+            {renderMiniGauge("Fatigue", report.metrics.cv?.fatigue_index || 0, true, <Clock className="h-5 w-5 text-amber-400" />)}
+            {renderMiniGauge("Engagement", report.metrics.cv?.engagement_score || 0, false, <Activity className="h-5 w-5 text-indigo-400" />)}
+            {renderMiniGauge("Wellness", report.metrics.cv?.wellness_score || 0, false, <CheckCircle2 className="h-5 w-5 text-emerald-400" />)}
           </div>
 
           {/* Behavioral Timeline Widget */}
-          <div className="rounded-xl border border-slate-900 bg-slate-900/30 p-6 mb-8">
-            <h3 className="text-sm font-semibold tracking-wider text-slate-400 uppercase mb-4">Behavioral Timeline</h3>
-            <div className="max-h-[300px] overflow-y-auto pr-2 space-y-3 scrollbar-thin scrollbar-thumb-slate-800">
+          <div className="glass-card p-6 mb-12">
+            <h3 className="text-sm font-semibold tracking-wider text-slate-400 uppercase mb-6 flex items-center gap-2">
+              <Clock className="h-4 w-4 text-indigo-400" /> Event Timeline
+            </h3>
+            <div className="max-h-[400px] overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-slate-800 relative">
+              {/* Vertical connecting line */}
+              <div className="absolute left-[27px] top-4 bottom-4 w-0.5 bg-slate-800/50 rounded-full"></div>
+              
               {(!report.recent_events || report.recent_events.length === 0) ? (
                 <p className="text-xs text-slate-500 text-center py-6">No events logged yet for this session.</p>
               ) : (
-                report.recent_events.map((evt, idx) => {
-                  const info = getEventEmojiAndLabel(evt.event_type);
-                  const timeStr = formatEventTime(evt.timestamp);
-                  const sevColor = evt.severity === "CRITICAL" ? "bg-rose-500/10 text-rose-400 border-rose-500/20" :
-                                   evt.severity === "HIGH" ? "bg-orange-500/10 text-orange-400 border-orange-500/20" :
-                                   evt.severity === "MEDIUM" ? "bg-amber-500/10 text-amber-400 border-amber-500/20" :
-                                   "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
-                  return (
-                    <div key={`${evt.timestamp}-${idx}`} className="flex items-center justify-between p-3 rounded-lg bg-slate-950 border border-slate-900 hover:border-slate-800 transition">
-                      <div className="flex items-center gap-3">
-                        <span className="text-lg shrink-0">{info.emoji}</span>
-                        <div>
-                          <span className="text-sm font-semibold text-slate-200">{info.label}</span>
-                          {evt.details && Object.keys(evt.details).length > 0 && (
-                            <span className="text-[10px] text-slate-500 ml-2 font-mono">
-                              ({Object.entries(evt.details).map(([k, v]) => `${k}: ${v}`).join(", ")})
+                <div className="space-y-6">
+                  {report.recent_events.map((evt, idx) => {
+                    const info = getEventEmojiAndLabel(evt.event_type);
+                    const timeStr = formatEventTime(evt.timestamp);
+                    const isCritical = evt.severity === "CRITICAL" || evt.severity === "HIGH";
+                    
+                    const sevColor = evt.severity === "CRITICAL" ? "bg-rose-500/10 text-rose-400 border-rose-500/30 drop-shadow-[0_0_5px_rgba(244,63,94,0.5)]" :
+                                     evt.severity === "HIGH" ? "bg-orange-500/10 text-orange-400 border-orange-500/30 drop-shadow-[0_0_5px_rgba(249,115,22,0.5)]" :
+                                     evt.severity === "MEDIUM" ? "bg-amber-500/10 text-amber-400 border-amber-500/20" :
+                                     "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+                                     
+                    const nodeColor = evt.severity === "CRITICAL" ? "bg-rose-500 shadow-[0_0_10px_rgba(244,63,94,0.8)]" :
+                                      evt.severity === "HIGH" ? "bg-orange-500 shadow-[0_0_10px_rgba(249,115,22,0.8)]" :
+                                      evt.severity === "MEDIUM" ? "bg-amber-500" :
+                                      "bg-emerald-500";
+
+                    return (
+                      <div key={`${evt.timestamp}-${idx}`} className="relative flex items-start gap-6 group animate-in fade-in slide-in-from-right-4 duration-500 fill-mode-both" style={{ animationDelay: `${idx * 50}ms` }}>
+                        {/* Timeline Node */}
+                        <div className="relative z-10 flex flex-col items-center mt-1">
+                          <div className={`h-3 w-3 rounded-full border-[3px] border-slate-950 ${nodeColor} ${isCritical ? 'animate-pulse' : ''}`}></div>
+                        </div>
+                        
+                        {/* Event Card */}
+                        <div className="flex-1 bg-slate-950/50 hover:bg-slate-900/80 border border-slate-800/50 hover:border-slate-700 rounded-xl p-4 transition-all duration-300">
+                          <div className="flex items-center justify-between mb-1">
+                            <div className="flex items-center gap-2">
+                              <span className="text-xl leading-none">{info.emoji}</span>
+                              <span className="text-sm font-bold text-slate-200 tracking-wide">{info.label}</span>
+                            </div>
+                            <span className="text-[10px] font-mono text-slate-500 bg-slate-900 px-2 py-1 rounded-md">{timeStr}</span>
+                          </div>
+                          <div className="flex items-center justify-between mt-3">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              {evt.details && Object.keys(evt.details).length > 0 && (
+                                Object.entries(evt.details).map(([k, v]) => (
+                                  <span key={k} className="text-[10px] text-slate-400 font-mono bg-slate-900/50 border border-slate-800 px-2 py-0.5 rounded">
+                                    <span className="opacity-60">{k}:</span> <span className="text-slate-300">{v as string}</span>
+                                  </span>
+                                ))
+                              )}
+                            </div>
+                            <span className={`text-[9px] font-black px-2.5 py-1 rounded uppercase tracking-widest border ${sevColor}`}>
+                              {evt.severity}
                             </span>
-                          )}
+                          </div>
                         </div>
                       </div>
-                      <div className="flex items-center gap-3">
-                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded border uppercase tracking-wider ${sevColor}`}>
-                          {evt.severity}
-                        </span>
-                        <span className="text-xs font-mono text-slate-500">{timeStr}</span>
-                      </div>
-                    </div>
-                  );
-                })
+                    );
+                  })}
+                </div>
               )}
             </div>
           </div>
@@ -971,6 +1010,17 @@ export default function App() {
         </section>
         
       </main>
+      <Chatbot />
     </div>
   );
+}
+
+export default function App() {
+  const [view, setView] = useState<'home' | 'dashboard'>('home');
+
+  if (view === 'home') {
+    return <Home onLaunch={() => setView('dashboard')} />;
+  }
+
+  return <Dashboard />;
 }

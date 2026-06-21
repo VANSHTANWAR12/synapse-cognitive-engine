@@ -1,3 +1,37 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .glass-card {
+    @apply bg-slate-900/40 backdrop-blur-md border border-white/10 rounded-xl transition-all duration-300;
+  }
+  .glass-card:hover {
+    @apply -translate-y-1 bg-slate-800/50 shadow-[0_8px_30px_rgb(0,0,0,0.12)] shadow-indigo-500/20 border-white/20;
+  }
+}
+
+@layer utilities {
+  .text-glow-amber {
+    text-shadow: 0 0 10px theme('colors.amber.400' / 40%);
+  }
+  .text-glow-orange {
+    text-shadow: 0 0 10px theme('colors.orange.400' / 40%);
+  }
+  .text-glow-indigo {
+    text-shadow: 0 0 10px theme('colors.indigo.400' / 40%);
+  }
+  .text-glow-emerald {
+    text-shadow: 0 0 10px theme('colors.emerald.400' / 40%);
+  }
+  .text-glow-rose {
+    text-shadow: 0 0 10px theme('colors.rose.400' / 40%);
+  }
+  .text-glow-red {
+    text-shadow: 0 0 10px theme('colors.red.500' / 40%);
+  }
+  
+  .animate-pulse-fast {
+    animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}

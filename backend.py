@@ -5,8 +5,10 @@ import time
 import threading
 from datetime import datetime
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+import asyncio
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 # Add project root to sys.path to ensure local imports work
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -14,6 +16,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from services.aggregator import MetricsAggregator
 from scoring.stress_engine import StressEngine
 from output.report_generator import ReportGenerator
+from services.llm_engine import get_supportive_response
+from services.rppg_engine import rppg_engine
 
 REPORT_FILE = os.path.join("reports", "latest_report.json")
 
@@ -122,8 +126,10 @@ async def lifespan(app: FastAPI):
     # Startup logic: launch daemon thread
     t = threading.Thread(target=run_aggregator_loop, daemon=True)
     t.start()
+    rppg_engine.start()
     yield
     # Shutdown logic
+    rppg_engine.stop()
 
 app = FastAPI(title="Synapse Backend", lifespan=lifespan)
 
@@ -136,9 +142,61 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Mount MindSentry frontend
+mindsentry_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Student OS LLM activation", "igdtuw", "mental-ai-frontend")
+print(f"Resolved mindsentry_dir: {mindsentry_dir}", flush=True)
+app.mount("/mindsentry", StaticFiles(directory=mindsentry_dir, html=True), name="mindsentry")
+
+@app.websocket("/ws/resonance")
+async def resonance_websocket(websocket: WebSocket):
+    await websocket.accept()
+    try:
+        while True:
+            state = rppg_engine.get_state()
+            await websocket.send_json(state)
+            await asyncio.sleep(2)
+    except WebSocketDisconnect:
+        pass
+
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+from pydantic import BaseModel
+class ChatRequest(BaseModel):
+    message: str
+
+@app.post("/api/chat")
+def chat(request: ChatRequest):
+    metrics = get_report()
+    stress_level = metrics.get("stress", {}).get("level", "Unknown")
+    stress_score = metrics.get("stress", {}).get("score", 0)
+    
+    # Determine emotion from cv metrics or fallback to stress mapping
+    emotion = "neutral"
+    if "cv" in metrics.get("metrics", {}):
+        emotion = metrics["metrics"]["cv"].get("emotional_valence", "neutral")
+    else:
+        # Fallback to mapping stress level to basic emotion if emotional_valence is missing
+        if stress_score > 70:
+            emotion = "fear" if stress_level == "High Stress" else "anger"
+        elif stress_score < 30:
+            emotion = "neutral"
+            
+    # Normalize emotion for MindSentry
+    emotion = emotion.lower()
+    
+    # Use MindSentry LLM engine
+    response = get_supportive_response(request.message, emotion)
+
+    return {
+        "reply": response,
+        "context_used": {
+            "stress_level": stress_level,
+            "stress_score": stress_score,
+            "detected_emotion": emotion
+        }
+    }
 
 @app.get("/report")
 def get_report():
