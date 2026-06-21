@@ -42,6 +42,7 @@ class CVTracker:
         self.look_away_start_time = None
         self.look_away_duration = 0.0
         self._last_process_time = time.time()
+        self._smoothed_frustration = 0.0  # EMA for smooth frustration updates
         
         # State
         self.eyes_closed = False
@@ -91,16 +92,62 @@ class CVTracker:
             self.thread.join(timeout=1.0)
         
     def _run_loop(self):
-        cap = cv2.VideoCapture(self.camera_index)
-        if not cap.isOpened():
-            print("CVTracker: Warning - Camera could not be opened.")
+        cap = None
+        working_index = -1
+        
+        # Try finding a working camera
+        for idx in [self.camera_index, 0, 1, 2, 3]:
+            try:
+                temp_cap = cv2.VideoCapture(idx, cv2.CAP_DSHOW) # Use DirectShow for Windows
+                if temp_cap.isOpened():
+                    # Read a test frame to ensure it actually outputs data
+                    success, img = temp_cap.read()
+                    if success and img is not None:
+                        print(f"CVTracker: Successfully connected to camera index {idx}", flush=True)
+                        cap = temp_cap
+                        working_index = idx
+                        break
+                temp_cap.release()
+            except Exception as e:
+                print(f"CVTracker: Failed testing camera index {idx} - {e}", flush=True)
+                
+        if cap is None or not cap.isOpened():
+            # Fallback to default if DirectShow fails
+            for idx in [self.camera_index, 0, 1, 2, 3]:
+                try:
+                    temp_cap = cv2.VideoCapture(idx)
+                    if temp_cap.isOpened():
+                        success, img = temp_cap.read()
+                        if success and img is not None:
+                            print(f"CVTracker: Successfully connected to camera index {idx} (default API)", flush=True)
+                            cap = temp_cap
+                            working_index = idx
+                            break
+                    temp_cap.release()
+                except:
+                    pass
+            
+        if cap is None or not cap.isOpened():
+            print("CVTracker: Error - Could not find any working physical camera.", flush=True)
+            self.running = False
             return
+            
+        self.camera_index = working_index
+        
+        # Track consecutive read failures
+        fail_count = 0
             
         while self.running:
             success, image = cap.read()
-            if not success:
+            if not success or image is None:
+                fail_count += 1
+                if fail_count > 30: # If it fails continuously for ~3 seconds
+                    print(f"CVTracker: Camera {self.camera_index} stopped returning frames. Will retry...", flush=True)
+                    break # Exit inner loop to let thread die/restart or just fail gracefully
                 time.sleep(0.1)
                 continue
+                
+            fail_count = 0
                 
             # Process strictly in memory and discard
             self._process_frame(image)
@@ -266,38 +313,42 @@ class CVTracker:
 
             # --- ADVANCED METRICS ---
 
-            # 1. Brow Furrowing
+            # 1. Brow Furrowing (widened threshold for sensitivity)
             dist_brows = np.linalg.norm(get_pt(107) - get_pt(336)) / iod
-            furrow_val = np.clip((0.85 - dist_brows) / 0.15, 0, 1)
+            furrow_val = np.clip((0.95 - dist_brows) / 0.25, 0, 1)
 
-            # 2. Eyebrow Compression
+            # 2. Eyebrow Compression (widened threshold)
             left_brow_height = np.linalg.norm(get_pt(105) - left_eye_center) / iod
             right_brow_height = np.linalg.norm(get_pt(334) - right_eye_center) / iod
             avg_brow_height = (left_brow_height + right_brow_height) / 2.0
-            compress_val = np.clip((0.55 - avg_brow_height) / 0.09, 0, 1)
+            compress_val = np.clip((0.65 - avg_brow_height) / 0.15, 0, 1)
 
-            # 3. Lip Tightening
+            # 3. Lip Tightening (widened threshold)
             mouth_w_norm = mouth_w / iod
             mouth_h_norm = mouth_h / iod
-            lip_tight_val = np.clip((0.07 - mouth_h_norm) / 0.04, 0, 1) * np.clip((0.75 - mouth_w_norm) / 0.15, 0, 1)
+            lip_tight_val = np.clip((0.12 - mouth_h_norm) / 0.06, 0, 1) * np.clip((0.85 - mouth_w_norm) / 0.20, 0, 1)
 
-            # 4. Jaw Tension
+            # 4. Jaw Tension (widened threshold)
             nose_to_chin = np.linalg.norm(get_pt(1) - get_pt(152)) / iod
-            jaw_tension_val = np.clip((1.42 - nose_to_chin) / 0.08, 0, 1)
+            jaw_tension_val = np.clip((1.55 - nose_to_chin) / 0.15, 0, 1)
 
-            # 5. Rapid Head Movement
+            # 5. Rapid Head Movement (more sensitive)
             current_nose_pos = get_pt(1)
             rapid_head_val = 0.0
             if self.last_nose_pos is not None:
                 speed = np.linalg.norm(current_nose_pos - self.last_nose_pos) / (dt + 1e-6) / iod
                 self.head_speeds.append(speed)
                 mean_speed = np.mean(self.head_speeds)
-                rapid_head_val = np.clip((mean_speed - 0.4) / 1.6, 0, 1)
+                rapid_head_val = np.clip((mean_speed - 0.2) / 1.0, 0, 1)
             self.last_nose_pos = current_nose_pos
 
-            # --- Frustration Score ---
+            # --- Frustration Score (from facial landmarks) ---
             frust_score = (furrow_val * 0.3 + compress_val * 0.2 + lip_tight_val * 0.2 + jaw_tension_val * 0.15 + rapid_head_val * 0.15) * 100
-            self.metrics["frustration_score"] = int(np.clip(frust_score, 0, 100))
+            # Apply EMA smoothing so value changes gradually
+            raw_frust = float(np.clip(frust_score, 0, 100))
+            alpha = 0.3  # smoothing factor
+            self._smoothed_frustration = alpha * raw_frust + (1 - alpha) * self._smoothed_frustration
+            self.metrics["frustration_score"] = int(np.clip(self._smoothed_frustration, 0, 100))
 
             # --- Stress Expression Score ---
             squint_val = 0.0
@@ -393,6 +444,32 @@ class CVTracker:
                 0, 100
             ))
             self.metrics["engagement_index"] = self.metrics["engagement_score"]
+            
+            # --- Behavioral Frustration Blend ---
+            # When face is not detected, use keyboard/mouse behavioral signals
+            # as a proxy for frustration so the gauge always updates.
+            behavioral_frust = 0.0
+            if keyboard is not None:
+                backspace_rate = keyboard.get("backspaces_per_min", 0)
+                typing_var = keyboard.get("typing_variance", 0.0)
+                long_pauses = keyboard.get("long_pause_count", 0)
+                # High backspace rate = frustration (editing/correcting a lot)
+                backspace_factor = min(100.0, backspace_rate * 8)
+                # High typing variance = erratic behavior
+                variance_factor = min(100.0, typing_var * 25)
+                # Long pauses = hesitation/stuck
+                pause_factor = min(100.0, long_pauses * 15)
+                behavioral_frust = (backspace_factor * 0.45 + variance_factor * 0.35 + pause_factor * 0.20)
+                behavioral_frust = min(100.0, behavioral_frust)
+            
+            cv_frust = self.metrics["frustration_score"]
+            if self.metrics["face_present"]:
+                # Face detected: blend 70% facial + 30% behavioral
+                blended = cv_frust * 0.7 + behavioral_frust * 0.3
+            else:
+                # No face: use 100% behavioral so the gauge still updates
+                blended = behavioral_frust
+            self.metrics["frustration_score"] = int(np.clip(blended, 0, 100))
             
             # --- Cognitive Overload Score ---
             window_switches = 0

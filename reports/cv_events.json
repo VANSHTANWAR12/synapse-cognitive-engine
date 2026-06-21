@@ -1,6 +1,408 @@
 {
     "events": [
         {
+            "timestamp": "2026-06-21T12:26:03.431850",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 81,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:26:01.413770",
+            "event_type": "LOW_ATTENTION",
+            "severity": "MEDIUM",
+            "score": 40,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:25:55.388467",
+            "event_type": "HIGH_FRUSTRATION",
+            "severity": "HIGH",
+            "score": 73,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:25:31.286908",
+            "event_type": "HIGH_FRUSTRATION",
+            "severity": "HIGH",
+            "score": 76,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:25:05.169198",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 94,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:25:05.169198",
+            "event_type": "HIGH_FRUSTRATION",
+            "severity": "HIGH",
+            "score": 65,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:25:03.153918",
+            "event_type": "ENGAGEMENT_DROP",
+            "severity": "HIGH",
+            "score": 23,
+            "details": {
+                "decrease_points": 57
+            }
+        },
+        {
+            "timestamp": "2026-06-21T12:25:03.153918",
+            "event_type": "LOW_ATTENTION",
+            "severity": "MEDIUM",
+            "score": 0,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:18:12.124812",
+            "event_type": "FACE_NOT_PRESENT",
+            "severity": "MEDIUM",
+            "score": 0,
+            "details": {
+                "absent_duration_sec": 10.0
+            }
+        },
+        {
+            "timestamp": "2026-06-21T12:12:03.413545",
+            "event_type": "FACE_NOT_PRESENT",
+            "severity": "MEDIUM",
+            "score": 0,
+            "details": {
+                "absent_duration_sec": 10.1
+            }
+        },
+        {
+            "timestamp": "2026-06-21T12:11:46.179229",
+            "event_type": "FACE_NOT_PRESENT",
+            "severity": "MEDIUM",
+            "score": 0,
+            "details": {
+                "absent_duration_sec": 10.0
+            }
+        },
+        {
+            "timestamp": "2026-06-21T12:10:15.061749",
+            "event_type": "FACE_NOT_PRESENT",
+            "severity": "MEDIUM",
+            "score": 0,
+            "details": {
+                "absent_duration_sec": 10.0
+            }
+        },
+        {
+            "timestamp": "2026-06-21T12:10:04.393959",
+            "event_type": "HIGH_FRUSTRATION",
+            "severity": "HIGH",
+            "score": 80,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:09:49.599686",
+            "event_type": "FACE_NOT_PRESENT",
+            "severity": "MEDIUM",
+            "score": 0,
+            "details": {
+                "absent_duration_sec": 10.1
+            }
+        },
+        {
+            "timestamp": "2026-06-21T12:09:39.537658",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 94,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:09:34.519840",
+            "event_type": "LOW_ATTENTION",
+            "severity": "MEDIUM",
+            "score": 36,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:09:14.416589",
+            "event_type": "NEGATIVE_EMOTIONAL_STATE",
+            "severity": "MEDIUM",
+            "score": 66,
+            "details": {
+                "valence": "Negative",
+                "duration_sec": 30.2
+            }
+        },
+        {
+            "timestamp": "2026-06-21T12:08:59.353567",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 83,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:08:59.353567",
+            "event_type": "HIGH_FRUSTRATION",
+            "severity": "HIGH",
+            "score": 62,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:08:49.292506",
+            "event_type": "ENGAGEMENT_DROP",
+            "severity": "HIGH",
+            "score": 38,
+            "details": {
+                "decrease_points": 36
+            }
+        },
+        {
+            "timestamp": "2026-06-21T12:08:49.292506",
+            "event_type": "LOW_ATTENTION",
+            "severity": "MEDIUM",
+            "score": 0,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:07:43.881333",
+            "event_type": "FATIGUE_SPIKE",
+            "severity": "MEDIUM",
+            "score": 25,
+            "details": {
+                "increase_points": 19
+            }
+        },
+        {
+            "timestamp": "2026-06-21T12:07:33.799626",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 89,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:07:33.799626",
+            "event_type": "HIGH_FRUSTRATION",
+            "severity": "HIGH",
+            "score": 64,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:07:28.686945",
+            "event_type": "LOW_ATTENTION",
+            "severity": "MEDIUM",
+            "score": 0,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:07:23.558854",
+            "event_type": "NEGATIVE_EMOTIONAL_STATE",
+            "severity": "MEDIUM",
+            "score": 55,
+            "details": {
+                "valence": "Negative",
+                "duration_sec": 30.6
+            }
+        },
+        {
+            "timestamp": "2026-06-21T12:07:13.141732",
+            "event_type": "ENGAGEMENT_DROP",
+            "severity": "HIGH",
+            "score": 60,
+            "details": {
+                "decrease_points": 29
+            }
+        },
+        {
+            "timestamp": "2026-06-21T12:06:47.976194",
+            "event_type": "HIGH_FRUSTRATION",
+            "severity": "HIGH",
+            "score": 70,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:05:45.652668",
+            "event_type": "NEGATIVE_EMOTIONAL_STATE",
+            "severity": "MEDIUM",
+            "score": 67,
+            "confidence": 82,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:05:29.991115",
+            "event_type": "HIGH_FRUSTRATION",
+            "severity": "HIGH",
+            "score": 63,
+            "confidence": 80,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:03:45.855421",
+            "event_type": "FACE_NOT_PRESENT",
+            "severity": "MEDIUM",
+            "score": 0,
+            "confidence": 100,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:03:38.810860",
+            "event_type": "ENGAGEMENT_DROP",
+            "severity": "HIGH",
+            "score": 27,
+            "confidence": 100,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:01:51.102638",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 87,
+            "confidence": 100,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:01:44.990308",
+            "event_type": "LOW_ATTENTION",
+            "severity": "MEDIUM",
+            "score": 48,
+            "confidence": 94,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:01:42.957899",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 76,
+            "confidence": 100,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:01:37.912101",
+            "event_type": "ENGAGEMENT_DROP",
+            "severity": "HIGH",
+            "score": 69,
+            "confidence": 100,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:01:37.912101",
+            "event_type": "COGNITIVE_OVERLOAD",
+            "severity": "HIGH",
+            "score": 73,
+            "confidence": 97,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:01:37.912101",
+            "event_type": "LOW_ATTENTION",
+            "severity": "MEDIUM",
+            "score": 41,
+            "confidence": 97,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:01:20.719765",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 82,
+            "confidence": 100,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:01:18.683348",
+            "event_type": "HIGH_FRUSTRATION",
+            "severity": "HIGH",
+            "score": 61,
+            "confidence": 100,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:01:15.602341",
+            "event_type": "LOW_ATTENTION",
+            "severity": "MEDIUM",
+            "score": 16,
+            "confidence": 60,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:01:10.548424",
+            "event_type": "FACE_NOT_PRESENT",
+            "severity": "MEDIUM",
+            "score": 0,
+            "confidence": 100,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:01:06.446932",
+            "event_type": "ENGAGEMENT_DROP",
+            "severity": "HIGH",
+            "score": 71,
+            "confidence": 100,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:00:39.021252",
+            "event_type": "NEGATIVE_EMOTIONAL_STATE",
+            "severity": "MEDIUM",
+            "score": 65,
+            "confidence": 70,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T12:00:23.933975",
+            "event_type": "HIGH_FRUSTRATION",
+            "severity": "HIGH",
+            "score": 61,
+            "confidence": 73,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T11:54:34.950088",
+            "event_type": "HIGH_FRUSTRATION",
+            "severity": "HIGH",
+            "score": 80,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T11:52:49.675085",
+            "event_type": "HIGH_FRUSTRATION",
+            "severity": "HIGH",
+            "score": 76,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T11:52:44.664541",
+            "event_type": "ATTENTION_RECOVERED",
+            "severity": "LOW",
+            "score": 87,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T11:52:39.645993",
+            "event_type": "ENGAGEMENT_DROP",
+            "severity": "HIGH",
+            "score": 20,
+            "details": {
+                "decrease_points": 60
+            }
+        },
+        {
+            "timestamp": "2026-06-21T11:52:39.645993",
+            "event_type": "LOW_ATTENTION",
+            "severity": "MEDIUM",
+            "score": 0,
+            "details": {}
+        },
+        {
+            "timestamp": "2026-06-21T11:51:44.956508",
+            "event_type": "FACE_NOT_PRESENT",
+            "severity": "MEDIUM",
+            "score": 0,
+            "details": {
+                "absent_duration_sec": 10.0
+            }
+        },
+        {
             "timestamp": "2026-06-21T11:44:14.781009",
             "event_type": "FACE_NOT_PRESENT",
             "severity": "MEDIUM",

@@ -198,7 +198,7 @@ function Dashboard() {
 
   useEffect(() => {
     fetchReport(); // initial fetch
-    const interval = setInterval(fetchReport, 5000);
+    const interval = setInterval(fetchReport, 2000);
     return () => clearInterval(interval);
   }, []);
 
@@ -396,7 +396,7 @@ function Dashboard() {
               </span>
               <span>LIVE POLLING</span>
               <span className="text-slate-600 font-mono">|</span>
-              <span className="text-slate-300 font-mono">5s</span>
+              <span className="text-slate-300 font-mono">2s</span>
             </div>
           </div>
         </div>

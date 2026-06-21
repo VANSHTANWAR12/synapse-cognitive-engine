@@ -119,7 +119,7 @@ def run_aggregator_loop():
             generator.save_report(metrics, stress)
         except Exception as e:
             print(f"Error in aggregator loop: {e}", flush=True)
-        time.sleep(5)
+        time.sleep(2)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -145,7 +145,10 @@ app.add_middleware(
 # Mount MindSentry frontend
 mindsentry_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Student OS LLM activation", "igdtuw", "mental-ai-frontend")
 print(f"Resolved mindsentry_dir: {mindsentry_dir}", flush=True)
-app.mount("/mindsentry", StaticFiles(directory=mindsentry_dir, html=True), name="mindsentry")
+if os.path.exists(mindsentry_dir):
+    app.mount("/mindsentry", StaticFiles(directory=mindsentry_dir, html=True), name="mindsentry")
+else:
+    print(f"Warning: mindsentry_dir '{mindsentry_dir}' does not exist, skipping mount.", flush=True)
 
 @app.websocket("/ws/resonance")
 async def resonance_websocket(websocket: WebSocket):
