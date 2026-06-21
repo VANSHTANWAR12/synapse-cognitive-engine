@@ -36,10 +36,6 @@ export default function Home({ onLaunch }: HomeProps) {
 
       {/* Hero Section */}
       <main className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-80px)] px-6 text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold uppercase tracking-wider mb-8">
-          <Sparkles className="h-3.5 w-3.5" />
-          <span>Neurox Hackathon Winner</span>
-        </div>
         
         <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-white via-slate-200 to-slate-500 max-w-4xl leading-tight mb-6">
           The Emotion-Aware <br className="hidden md:block" /> Workspace
